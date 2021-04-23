@@ -102,5 +102,7 @@ return [
     'menu_titles'            => [],
     'prev'                   => '上一步',
     'next'                   => '下一步',
-    'quick_create'           => '快速创建',
+    'Created at'             => '创建时间',
+    'Updated at'             => '更新时间',
+
 ];
