@@ -11,9 +11,9 @@ class CreateKlassesTable extends Migration
         Schema::create('klasses', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('course_id');
+            $table->string('name');
             $table->string('lecturer');
-            $table->smallInteger('total_quota');
-            $table->smallInteger('remaining_quota');
+            $table->smallInteger('quota');
             $table->dateTime('start_time');
             $table->dateTime('end_time');
             $table->dateTime('closing_time');

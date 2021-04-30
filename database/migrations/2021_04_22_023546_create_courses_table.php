@@ -12,9 +12,7 @@ class CreateCoursesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('note');
-            $table->boolean('is_VIP');
-            $table-> boolean('is_incu');
-            $table-> boolean('is_bench');
+            $table->string('tags');
             $table->timestamps();
         });
 	}

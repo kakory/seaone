@@ -4,21 +4,21 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKlasseCustomerTable extends Migration
+class CreateEnrollTable extends Migration
 {
     public function up()
     {
-        Schema::create('klasse_customer', function (Blueprint $table) {
+        Schema::create('enroll', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('klasse_id');
             $table->integer('customer_id');
-            $table->dateTime('sign_in_time')->nullable();
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('klasse_customer');
+        Schema::dropIfExists('enroll');
     }
 }

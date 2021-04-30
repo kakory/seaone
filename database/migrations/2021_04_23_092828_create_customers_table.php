@@ -10,14 +10,13 @@ class CreateCustomersTable extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('phone_number')->index();
+            $table->string('name')->index();
+            $table->string('phone_number')->unique();
             $table->string('company_name')->index();
             $table->string('address');
-            $table->boolean('is_VIP');
-            $table->boolean('is_incu');
-            $table->boolean('is_bench');
+            $table->string('tags')->nullable();
             $table->string('photo')->nullable();
+            $table->string('remark')->nullable();
             $table->timestamps();
         });
     }

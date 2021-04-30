@@ -104,5 +104,4 @@ return [
     'next'                   => '下一步',
     'Created at'             => '创建时间',
     'Updated at'             => '更新时间',
-
 ];

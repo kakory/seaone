@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Klasse extends Model
 {
-    protected $fillable = ['course_id', 'lecturer', 'total_quota', 'remaining_quota', 
+    protected $fillable = ['course_id', 'name', 'lecturer', 'quota', 
     'start_time', 'end_time', 'closing_time', 'is_online', 'classroom', 'qrcode'];
 
     public function course()
@@ -16,6 +16,8 @@ class Klasse extends Model
 
     public function customers()
     {
-        return $this->belongsToMany(Customer::class, 'klasse_customer', 'klasse_id', 'customer_id');
+        return $this->belongsToMany(Customer::class, 'enroll', 'klasse_id', 'customer_id')
+        ->withPivot('status')
+        ->withTimestamps();;
     }
 }
