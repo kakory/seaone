@@ -2,21 +2,20 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Course;
-use App\Models\Privilege;
+use App\Models\PrivilegeCustomer;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class CourseController extends AdminController
+class PrivilegeCustomerController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = 'Course';
+    protected $title = 'PrivilegeCustomer';
 
     /**
      * Make a grid builder.
@@ -25,19 +24,14 @@ class CourseController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Course());
+        $grid = new Grid(new PrivilegeCustomer());
 
         $grid->column('id', __('Id'));
-        $grid->column('name', __('Name'));
-        $grid->column('note', __('Note'));
-        $grid->column('privilege.name');
+        $grid->column('customer_id', __('Customer id'));
+        $grid->column('privilege_id', __('Privilege id'));
+        $grid->column('limit', __('Limit'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
-
-        $grid->actions(function ($actions) {
-            $actions->disableDelete();
-            $actions->disableView();
-        });
 
         return $grid;
     }
@@ -50,12 +44,12 @@ class CourseController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(Course::findOrFail($id));
+        $show = new Show(PrivilegeCustomer::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('name', __('Name'));
-        $show->field('note', __('Note'));
+        $show->field('customer_id', __('Customer id'));
         $show->field('privilege_id', __('Privilege id'));
+        $show->field('limit', __('Limit'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -69,11 +63,11 @@ class CourseController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new Course());
+        $form = new Form(new PrivilegeCustomer());
 
-        $form->text('name', __('Name'))->required();
-        $form->text('note', __('Note'))->required();
-        $form->select('privilege_id', '属性')->options(Privilege::all()->pluck('name', 'id'))->required()->required();
+        $form->number('customer_id', __('Customer id'));
+        $form->number('privilege_id', __('Privilege id'));
+        $form->datetime('limit', __('Limit'))->default(date('Y-m-d H:i:s'));
 
         return $form;
     }

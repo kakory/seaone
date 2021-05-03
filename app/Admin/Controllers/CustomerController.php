@@ -3,14 +3,11 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Customer;
-use App\Models\Klasse;
-use App\Admin\Selectable\Klasses;
+use App\Admin\Selectable\Seminars;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
-use Illuminate\Support\Str;
-
 
 class CustomerController extends AdminController
 {
@@ -19,7 +16,7 @@ class CustomerController extends AdminController
      *
      * @var string
      */
-    protected $title = '客户';
+    protected $title = 'Customer';
 
     /**
      * Make a grid builder.
@@ -43,24 +40,19 @@ class CustomerController extends AdminController
             });
             $filter->expand();
         });
-        
         $grid->column('id', __('Id'))->hide();
+        $grid->column('photo', __('Photo'))->image('http://seaone.test/upload',50,50);
         $grid->column('name', __('Name'));
         $grid->column('phone_number', __('Phone number'));
         $grid->column('company_name', __('Company name'));
-        $grid->column('address', __('Address'));
-        $grid->column('tags', __('Tags'));
-        //$grid->column('photo', __('Photo'));
         $grid->column('remark', __('Remark'));
-        $grid->column('created_at', __('Created at'))->hide();
+        $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'))->hide();
 
-        //$grid->column('classes', '报名记录')->belongsToMany(Klasses::class);
         $grid->actions(function ($actions) {
             $actions->disableDelete();
             $actions->disableView();
         });
-
         return $grid;
     }
 
@@ -78,9 +70,7 @@ class CustomerController extends AdminController
         $show->field('name', __('Name'));
         $show->field('phone_number', __('Phone number'));
         $show->field('company_name', __('Company name'));
-        $show->field('address', __('Address'));
-        $show->field('tags', __('Tags'));
-        $show->field('photo', __('Photo'))->image();
+        $show->field('photo', __('Photo'));
         $show->field('remark', __('Remark'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
@@ -97,18 +87,15 @@ class CustomerController extends AdminController
     {
         $form = new Form(new Customer());
 
-        
         if($form->isEditing()){
-            $form->belongsToMany('classes', Klasses::class, __('报名记录'));
+            $form->belongsToMany('enroll', Seminars::class, __('报名记录'));
         }
         $form->text('name', __('Name'))->required();
         $form->mobile('phone_number', __('Phone number'))->required();
         $form->text('company_name', __('Company name'))->required();
-        $form->text('address', __('Address'))->default('广东省中山市')->required();
-        $form->text('tags', __('Tags'));
         $form->image('photo', __('Photo'))->move('photos')->uniqueName();
         $form->text('remark', __('Remark'));
-        //$form->multipleSelect('classes', '报名记录')->options(Klasse::all()->pluck('start_time', 'id'));
+
         return $form;
     }
 }

@@ -2,20 +2,20 @@
 
 namespace App\Admin\Selectable;
 
-use App\Models\Klasse;
+use App\Models\Seminar;
 use Encore\Admin\Grid\Filter;
 use Encore\Admin\Grid\Selectable;
 
-class Klasses extends Selectable
+class Seminars extends Selectable
 {
-    public $model = Klasse::class;
+    public $model = Seminar::class;
 
     public function make()
     {
         $this->model()->where('is_online', 1);
         $this->column('name', __('课程名'));
         $this->column('lecturer', __('Lecturer'));
-        $this->column('closing_time', __('Closing time'));
+        $this->column('closing_at', __('Closing at'));
     }
 
 }

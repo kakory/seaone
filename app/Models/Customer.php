@@ -6,12 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    protected $fillable = ['name', 'phone_number', 'company_name', 'address', 'tags', 'photo', 'remark'];
-    protected $casts = ['tags' => 'json'];
+    protected $table = 'customer';
+    protected $fillable = ['name', 'phone_number', 'company_name', 'photo', 'remark'];
 
-    public function classes()
+    public function seminars()
     {
-        return $this->belongsToMany(Klasse::Class, 'enroll', 'customer_id', 'klasse_id')
+        return $this->hasMany(SeminarCustomer::class);
+    }
+
+    public function privileges()
+    {
+        return $this->hasMany(PrivilegeCustomer::class);
+    }
+
+    public function enroll()
+    {
+        return $this->belongsToMany(Seminar::Class, 'seminar_customer', 'customer_id', 'seminar_id')
         ->withPivot('status')
         ->withTimestamps();
     }

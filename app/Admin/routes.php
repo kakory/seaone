@@ -14,7 +14,9 @@ Route::group([
     $router->get('/', 'HomeController@index')->name('home');
     $router->resource('courses', CourseController::class);
     $router->resource('customers', CustomerController::class);
-    $router->resource('klasses', KlasseController::class);
-    $router->resource('enrolls', EnrollController::class);
+    $router->resource('privileges', PrivilegeController::class);
+    $router->resource('privilege-customers', PrivilegeCustomerController::class);
+    $router->resource('seminars', SeminarController::class);
+    $router->resource('seminar-customers', SeminarCustomerController::class);
 
 });

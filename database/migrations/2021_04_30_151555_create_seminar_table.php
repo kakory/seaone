@@ -4,19 +4,25 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKlassesTable extends Migration
+class CreateSeminarTable extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
-        Schema::create('klasses', function (Blueprint $table) {
+        Schema::create('seminar', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('course_id');
             $table->string('name');
             $table->string('lecturer');
             $table->smallInteger('quota');
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
-            $table->dateTime('closing_time');
+            //$table->smallInteger('remaining_quota');
+            $table->timestamp('start_at');
+            $table->timestamp('end_at');
+            $table->timestamp('closing_at');
             $table->boolean('is_online');
             $table->string('classroom');
             $table->string('qrcode')->nullable();
@@ -24,8 +30,13 @@ class CreateKlassesTable extends Migration
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
-        Schema::dropIfExists('klasses');
+        Schema::dropIfExists('seminar');
     }
 }

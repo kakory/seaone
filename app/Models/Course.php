@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-    protected $fillable = ['name', 'note', 'tags'];
+    protected $table = 'course';
+    protected $fillable = ['name', 'note', 'privilege_id'];
     
-    public function klasses()
+    public function privilege()
     {
-        return $this->hasMany(Klasse::class);
+        return $this->belongsTo(Privilege::class);
     }
 }
