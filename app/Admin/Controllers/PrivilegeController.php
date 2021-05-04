@@ -64,7 +64,7 @@ class PrivilegeController extends AdminController
         $form = new Form(new Privilege());
 
         $form->text('name', __('Name'));
-        $form->switch('type', __('Type'));
+        $form->number('type', __('Type'));
 
         return $form;
     }

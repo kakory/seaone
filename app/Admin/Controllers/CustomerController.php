@@ -41,7 +41,7 @@ class CustomerController extends AdminController
             $filter->expand();
         });
         $grid->column('id', __('Id'))->hide();
-        $grid->column('photo', __('Photo'))->image('http://seaone.test/upload',50,50);
+        $grid->column('photo', __('Photo'))->image(env('APP_URL').'/upload',50,50);
         $grid->column('name', __('Name'));
         $grid->column('phone_number', __('Phone number'));
         $grid->column('company_name', __('Company name'));
