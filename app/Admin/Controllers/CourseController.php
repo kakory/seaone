@@ -27,12 +27,12 @@ class CourseController extends AdminController
     {
         $grid = new Grid(new Course());
 
-        $grid->column('id', __('Id'));
+        $grid->column('id', __('Id'))->hide();
         $grid->column('name', __('课程名'));
         $grid->column('note', __('Note'));
-        $grid->column('privilege.name');
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('privilege.name', '属性');
+        $grid->column('created_at', __('Created at'))->hide();
+        $grid->column('updated_at', __('Updated at'))->hide();
 
         $grid->actions(function ($actions) {
             $actions->disableDelete();
