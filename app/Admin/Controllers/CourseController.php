@@ -16,7 +16,7 @@ class CourseController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Course';
+    protected $title = '课程';
 
     /**
      * Make a grid builder.
