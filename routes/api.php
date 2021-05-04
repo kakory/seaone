@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //获取班级信息
 Route::get('getSeminar', 'Api\EnrollController@getSeminar');
+Route::get('getBanner', 'Api\EnrollController@getBanner');
 //获取客户个人信息-手机号
 Route::post('getCustomerInfo', 'Api\EnrollController@getCustomerInfo');
 //获取客户报课记录-手机号
