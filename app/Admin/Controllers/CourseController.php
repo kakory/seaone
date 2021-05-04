@@ -28,7 +28,7 @@ class CourseController extends AdminController
         $grid = new Grid(new Course());
 
         $grid->column('id', __('Id'));
-        $grid->column('name', __('Name'));
+        $grid->column('name', __('课程名'));
         $grid->column('note', __('Note'));
         $grid->column('privilege.name');
         $grid->column('created_at', __('Created at'));
@@ -53,7 +53,7 @@ class CourseController extends AdminController
         $show = new Show(Course::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('name', __('Name'));
+        $show->field('name', __('课程名'));
         $show->field('note', __('Note'));
         $show->field('privilege_id', __('Privilege id'));
         $show->field('created_at', __('Created at'));
@@ -71,7 +71,7 @@ class CourseController extends AdminController
     {
         $form = new Form(new Course());
 
-        $form->text('name', __('Name'))->required();
+        $form->text('name', __('课程名'))->required();
         $form->text('note', __('Note'))->required();
         $form->select('privilege_id', '属性')->options(Privilege::all()->pluck('name', 'id'))->required()->required();
 

@@ -18,5 +18,6 @@ Route::group([
     $router->resource('privilege-customers', PrivilegeCustomerController::class);
     $router->resource('seminars', SeminarController::class);
     $router->resource('seminar-customers', SeminarCustomerController::class);
+    $router->resource('banners', BannerController::class);
 
 });
