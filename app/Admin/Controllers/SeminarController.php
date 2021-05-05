@@ -42,9 +42,10 @@ class SeminarController extends AdminController
             $filter->expand();
         });
         $grid->model()->orderBy('start_at', 'desc');
+        $grid->column('id', __('Id'));
         $grid->column('name', '课程名称');
         $grid->column('lecturer', __('Lecturer'));
-        $grid->column('id', '名额')->show('seminar-customers');
+        $grid->column('名额')->showEnrollBySeminar();
         $grid->column('start_at', __('Start at'));
         $grid->column('end_at', __('End at'));
         $grid->column('closing_at', __('Closing at'));
@@ -57,6 +58,7 @@ class SeminarController extends AdminController
         $grid->column('created_at', __('Created at'))->hide();
         $grid->column('updated_at', __('Updated at'))->hide();
 
+        $grid->disableRowSelector();
         $grid->actions(function ($actions) {
             $actions->disableDelete();
             $actions->disableView();

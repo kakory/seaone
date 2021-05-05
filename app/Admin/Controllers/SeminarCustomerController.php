@@ -31,10 +31,12 @@ class SeminarCustomerController extends AdminController
         $grid->filter(function($filter){
             $filter->disableIdFilter();
             $filter->like('seminar_id', '课程名');
+            $filter->like('customer_id', '客户名');
         });
         $grid->disableFilter();
 
         $grid->model()->orderBy('created_at', 'desc');
+        $grid->column('id', __('Id'));
         $grid->column('seminar.name','课程名');
         $grid->column('customer.name','姓名');
         $grid->column('customer.phone_number','手机号');
@@ -44,7 +46,7 @@ class SeminarCustomerController extends AdminController
         $grid->column('status','状态')->radio([
             -1 => '审核失败',
             0 => '待审核',
-            1 => '待打卡',
+            1 => '已审核-待打卡',
             2 => '已打卡',
         ])->dot([
             -1 => 'danger',
@@ -53,7 +55,11 @@ class SeminarCustomerController extends AdminController
             2 => 'success',
         ]);
 
-        $grid->disableActions();
+        $grid->disableRowSelector();
+        $grid->actions(function ($actions) {
+            $actions->disableEdit();
+            $actions->disableView();
+        });
 
         return $grid;
     }

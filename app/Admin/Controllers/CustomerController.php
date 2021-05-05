@@ -40,15 +40,18 @@ class CustomerController extends AdminController
             });
             $filter->expand();
         });
-        $grid->column('id', __('Id'))->hide();
+        $grid->column('id', __('Id'));
         $grid->column('photo', __('Photo'))->image(env('APP_URL').'/upload',50,50);
         $grid->column('name', __('Name'));
         $grid->column('phone_number', __('Phone number'));
         $grid->column('company_name', __('Company name'));
         $grid->column('remark', __('Remark'));
+        $grid->contract('合约')->pluck('name')->label();
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'))->hide();
+        $grid->column('报名历史')->showEnrollByCustomer();
 
+        $grid->disableRowSelector();
         $grid->actions(function ($actions) {
             $actions->disableDelete();
             $actions->disableView();
@@ -88,13 +91,24 @@ class CustomerController extends AdminController
         $form = new Form(new Customer());
 
         if($form->isEditing()){
-            $form->belongsToMany('enroll', Seminars::class, __('报名记录'));
+            $form->column(1/2, function ($form) {
+                $form->belongsToMany('enroll', Seminars::class, __('当前报名记录'));
+            });
+            $form->column(1/2, function ($form) {
+                $form->text('name', __('Name'))->required();
+                $form->mobile('phone_number', __('Phone number'))->required();
+                $form->text('company_name', __('Company name'))->required();
+                $form->image('photo', __('Photo'))->move('photos')->uniqueName();
+                $form->text('remark', __('Remark'));
+            });
         }
-        $form->text('name', __('Name'))->required();
-        $form->mobile('phone_number', __('Phone number'))->required();
-        $form->text('company_name', __('Company name'))->required();
-        $form->image('photo', __('Photo'))->move('photos')->uniqueName();
-        $form->text('remark', __('Remark'));
+        if($form->isCreating()){
+            $form->text('name', __('Name'))->required();
+            $form->mobile('phone_number', __('Phone number'))->required();
+            $form->text('company_name', __('Company name'))->required();
+            $form->image('photo', __('Photo'))->move('photos')->uniqueName();
+            $form->text('remark', __('Remark'));
+        }
 
         return $form;
     }

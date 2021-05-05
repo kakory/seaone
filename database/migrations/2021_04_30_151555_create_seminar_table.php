@@ -24,7 +24,7 @@ class CreateSeminarTable extends Migration
             $table->timestamp('end_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('closing_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->boolean('is_online');
-            $table->string('classroom');
+            $table->string('classroom')->nullable();
             $table->string('qrcode')->nullable();
             $table->timestamps();
         });

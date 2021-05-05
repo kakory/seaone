@@ -47,6 +47,13 @@ class EnrollController extends Controller
         return SeminarCustomer::where('seminar_id', $sid)->where('customer_id', $cid)->delete();
     }
 
+    public function getTodaySeminar(Request $request)
+    {
+        $sid = $request['sid'];
+        $cid = Customer::where('phone_number',$request['phone'])->first()->id;
+        return SeminarCustomer::where('seminar_id', $sid)->where('customer_id', $cid)->update(['status' => 2]);
+    }
+
     public function signIn(Request $request)
     {
         $sid = $request['sid'];

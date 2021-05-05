@@ -3,6 +3,9 @@
 namespace App\Admin\Controllers;
 
 use App\Models\PrivilegeCustomer;
+use App\Models\Privilege;
+use App\Models\Customer;
+use App\Admin\Selectable\Customers;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -15,7 +18,7 @@ class PrivilegeCustomerController extends AdminController
      *
      * @var string
      */
-    protected $title = 'PrivilegeCustomer';
+    protected $title = '合约';
 
     /**
      * Make a grid builder.
@@ -26,13 +29,36 @@ class PrivilegeCustomerController extends AdminController
     {
         $grid = new Grid(new PrivilegeCustomer());
 
+        $grid->filter(function($filter){
+            $filter->disableIdFilter();
+            $filter->column(1/3, function ($filter) {
+                $filter->like('customer_id', '姓名');
+            });
+            $filter->column(1/3, function ($filter) {
+                $filter->like('customer.phone_number','手机号');
+            });
+            $filter->column(1/3, function ($filter) {
+                $filter->like('customer.company_name','公司名');
+            });
+            $filter->expand();
+        });
         $grid->column('id', __('Id'));
-        $grid->column('customer_id', __('Customer id'));
-        $grid->column('privilege_id', __('Privilege id'));
+        $grid->column('customer.name','姓名');
+        $grid->column('customer.phone_number','手机号');
+        $grid->column('customer.company_name','公司名');
+        $grid->column('privilege.name', '合约名')->dot([
+            'VIP' => 'danger',
+            '标杆' => 'primary',
+        ]);
         $grid->column('limit', __('Limit'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
-
+        $grid->column('created_at', __('Created at'))->hide();
+        $grid->column('updated_at', __('Updated at'))->hide();
+        
+        $grid->disableRowSelector();
+        $grid->actions(function ($actions) {
+            $actions->disableDelete();
+            $actions->disableView();
+        });
         return $grid;
     }
 
@@ -65,8 +91,8 @@ class PrivilegeCustomerController extends AdminController
     {
         $form = new Form(new PrivilegeCustomer());
 
-        $form->number('customer_id', __('Customer id'));
-        $form->number('privilege_id', __('Privilege id'));
+        $form->belongsTo('customer_id', Customers::class, '客户');
+        $form->select('privilege_id', '合约名')->options(Privilege::all()->pluck('name', 'id'))->required();
         $form->datetime('limit', __('Limit'))->default(date('Y-m-d H:i:s'));
 
         return $form;

@@ -21,9 +21,15 @@ use Encore\Admin\Grid\Column;
 
 Encore\Admin\Form::forget(['map', 'editor']);
 
-Column::extend('show', function ($value, $href) {
+Column::extend('showEnrollBySeminar', function () {
 	$remaining_quota = $this->customers->count();
-    return "<a href= $href?seminar_id=$value>
+    return "<a href= seminar-customers?seminar_id=$this->id>
                 <i class='fa fa-chevron-right'/> $remaining_quota/$this->quota
+            </a>";
+});
+
+Column::extend('showEnrollByCustomer', function () {
+    return "<a href= seminar-customers?customer_id=$this->id>
+                <i class='fa fa-eye'/> 查看
             </a>";
 });

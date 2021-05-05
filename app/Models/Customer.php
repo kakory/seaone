@@ -25,4 +25,11 @@ class Customer extends Model
         ->withPivot('status')
         ->withTimestamps();
     }
+
+    public function contract()
+    {
+        return $this->belongsToMany(Privilege::Class, 'privilege_customer', 'customer_id', 'Privilege_id')
+        ->withPivot('limit')
+        ->withTimestamps();
+    }
 }
