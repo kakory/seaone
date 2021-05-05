@@ -93,7 +93,7 @@ class PrivilegeCustomerController extends AdminController
 
         $form->belongsTo('customer_id', Customers::class, '客户');
         $form->select('privilege_id', '合约名')->options(Privilege::all()->pluck('name', 'id'))->required();
-        $form->datetime('limit', __('Limit'))->default(date('Y-m-d H:i:s'));
+        $form->date('limit', __('Limit'));
 
         return $form;
     }

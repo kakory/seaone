@@ -30,25 +30,23 @@ class SeminarController extends AdminController
 
         $grid->filter(function($filter){
             $filter->disableIdFilter();
-            $filter->column(1/3, function ($filter) {
-                $filter->like('name', '课程名称');
-            });
-            $filter->column(1/3, function ($filter) {
-                $filter->between('start_at', __('Start at'))->datetime();
-            });
-            $filter->column(1/3, function ($filter) {
-                $filter->between('end_at', __('End at'))->datetime();
-            });
+            $filter->like('name', '课程名称');
             $filter->expand();
         });
-        $grid->model()->orderBy('start_at', 'desc');
+        $grid->model()->orderBy('start_date_at', 'desc');
         $grid->column('id', __('Id'));
         $grid->column('name', '课程名称');
         $grid->column('lecturer', __('Lecturer'));
         $grid->column('名额')->showEnrollBySeminar();
-        $grid->column('start_at', __('Start at'));
-        $grid->column('end_at', __('End at'));
-        $grid->column('closing_at', __('Closing at'));
+        $grid->column( __('Start at'))->display(function () {
+            return $this->start_date_at . ' ' . $this->start_time_at;
+        });
+        $grid->column( __('End at'))->display(function () {
+            return $this->end_date_at . ' ' . $this->end_time_at;
+        });
+        $grid->column( __('Closing at'))->display(function () {
+            return $this->closing_date_at . ' ' . $this->closing_time_at;
+        });
         $grid->column('is_online', __('Is online'))->filter([
             0 => '未上线',
             1 => '已上线',
@@ -81,10 +79,6 @@ class SeminarController extends AdminController
         $show->field('name', __('Name'));
         $show->field('lecturer', __('Lecturer'));
         $show->field('quota', __('Quota'));
-        $show->field('remaining_quota', __('Remaining quota'));
-        $show->field('start_at', __('Start at'));
-        $show->field('end_at', __('End at'));
-        $show->field('closing_at', __('Closing at'));
         $show->field('is_online', __('Is online'));
         $show->field('classroom', __('Classroom'));
         $show->field('qrcode', __('Qrcode'));
@@ -107,21 +101,31 @@ class SeminarController extends AdminController
         $form->hidden('name');
         $form->text('lecturer', __('Lecturer'))->required();
         $form->number('quota', __('Quota'))->required();
-        $form->datetime('start_at', __('Start at'))->required();
-        $form->datetime('end_at', __('End at'))->required();
-        $form->datetime('closing_at', __('Closing at'))->required();
+        $form->dateRange('start_date_at', 'end_date_at', 'Date Range')->required();
+        $form->date('closing_date_at', __('Closing at'))->required();
+        $form->hidden('start_time_at');
+        $form->hidden('end_time_at');
+        $form->hidden('closing_time_at');
         $form->switch('is_online', __('Is online'));
         $form->text('classroom', __('Classroom'));
         $form->image('qrcode', __('Qrcode'))->move('qrcodes')->uniqueName();
 
         $form->saving(function (Form $form) {
-            if($form->start_at==''){
+            if(Course::where('id', $form->course_id)->first()->privilege_id == 2){
+                $form->start_time_at = '09:30:00';
+            }else{
+                $form->start_time_at = '09:00:00';
+            }
+            $form->end_time_at = '18:00:00';
+            $form->closing_time_at = '00:00:00';
+            
+            if($form->start_date_at==''){
                 return $form;
             }
-            $start_month = ltrim(substr($form->start_at, 5, 2), '0') . '月';
-            $start_day = ltrim(substr($form->start_at, 8, 2), '0') . '日';
-            $end_month = ltrim(substr($form->end_at, 5, 2), '0') . '月';
-            $end_day = ltrim(substr($form->end_at, 8, 2), '0') . '日';
+            $start_month = ltrim(substr($form->start_date_at, 5, 2), '0') . '月';
+            $start_day = ltrim(substr($form->start_date_at, 8, 2), '0') . '日';
+            $end_month = ltrim(substr($form->end_date_at, 5, 2), '0') . '月';
+            $end_day = ltrim(substr($form->end_date_at, 8, 2), '0') . '日';
             $name = Course::where('id', $form->course_id)->value('name');
             if($start_month !== $end_month){
                 $form->name = $start_month . $start_day . '-' . $end_month . $end_day . $name;

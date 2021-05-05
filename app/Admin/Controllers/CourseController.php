@@ -30,7 +30,10 @@ class CourseController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('name', __('课程名'));
         $grid->column('note', __('Note'));
-        $grid->column('privilege.name', '属性');
+        $grid->column('privilege.name', '属性')->dot([
+            'VIP' => 'danger',
+            '标杆' => 'primary',
+        ]);
         $grid->column('created_at', __('Created at'))->hide();
         $grid->column('updated_at', __('Updated at'))->hide();
 

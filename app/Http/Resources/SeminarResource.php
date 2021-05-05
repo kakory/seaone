@@ -15,14 +15,17 @@ class SeminarResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => date("Y/m/d"),
+            'id' => $this->id,
             'name' => $this->name,
             'lecturer' => $this->lecturer,
             'total_quota' => $this->quota,
             'remaining_quota' => $this->customers->count(),
-            'start_at' => date('Y-m-d',$this->start_at),
-            'end_at' => $this->end_at,
-            'closing_at' => $this->closing_at,
+            'start_date_at' => $this->start_date_at,
+            'start_time_at' => $this->start_time_at,
+            'end_date_at' => $this->end_date_at,
+            'end_time_at' => $this->end_time_at,
+            'closing_date_at' => $this->closing_date_at,
+            'closing_time_at' => $this->closing_time_at,
             'classroom' => $this->classroom,
             'qrcode' => $this->qrcode,
             'note' => $this->course->note,

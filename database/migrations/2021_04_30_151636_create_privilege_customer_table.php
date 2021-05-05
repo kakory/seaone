@@ -17,7 +17,7 @@ class CreatePrivilegeCustomerTable extends Migration
             $table->increments('id');
             $table->integer('customer_id')->index();
             $table->integer('privilege_id')->index();
-            $table->timestamp('limit');
+            $table->date('limit');
             $table->timestamps();
         });
     }

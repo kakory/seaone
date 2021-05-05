@@ -15,7 +15,7 @@ class Seminars extends Selectable
         $this->model()->where('is_online', 1);
         $this->column('name', __('课程名'));
         $this->column('lecturer', __('Lecturer'));
-        $this->column('closing_at', __('Closing at'));
+        $this->column('closing_date_at', __('Closing date at'));
     }
 
 }

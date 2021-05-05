@@ -20,9 +20,12 @@ class CreateSeminarTable extends Migration
             $table->string('lecturer');
             $table->smallInteger('quota');
             //$table->smallInteger('remaining_quota');
-            $table->timestamp('start_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('end_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('closing_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->date('start_date_at');
+            $table->time('start_time_at');
+            $table->date('end_date_at');
+            $table->time('end_time_at');
+            $table->date('closing_date_at');
+            $table->time('closing_time_at');
             $table->boolean('is_online');
             $table->string('classroom')->nullable();
             $table->string('qrcode')->nullable();
