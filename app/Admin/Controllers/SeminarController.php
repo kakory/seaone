@@ -111,6 +111,10 @@ class SeminarController extends AdminController
         $form->image('qrcode', __('Qrcode'))->move('qrcodes')->uniqueName();
 
         $form->saving(function (Form $form) {
+            if($form->start_date_at==''){
+                return $form;
+            }
+            
             if(Course::where('id', $form->course_id)->first()->privilege_id == 2){
                 $form->start_time_at = '09:30:00';
             }else{
@@ -119,9 +123,6 @@ class SeminarController extends AdminController
             $form->end_time_at = '18:00:00';
             $form->closing_time_at = '00:00:00';
             
-            if($form->start_date_at==''){
-                return $form;
-            }
             $start_month = ltrim(substr($form->start_date_at, 5, 2), '0') . '月';
             $start_day = ltrim(substr($form->start_date_at, 8, 2), '0') . '日';
             $end_month = ltrim(substr($form->end_date_at, 5, 2), '0') . '月';
