@@ -33,4 +33,5 @@ Route::get('todaySeminar', 'Api\EnrollController@getTodaySeminar');
 Route::post('signIn', 'Api\EnrollController@signIn');
 
 //小程序-获取openid
-Route::get('wxlogin', 'Api\MiniProgramController@getOpenid');
+Route::get('openid', 'Api\MiniProgramController@getOpenid');
+Route::get('wxlogin', 'Api\MiniProgramController@wxlogin');
