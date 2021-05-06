@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\SeminarResource;
-use App\Http\Resources\BannerResource;
 use App\Models\Customer;
 use App\Models\Seminar;
 use App\Models\SeminarCustomer;
@@ -15,12 +14,13 @@ class EnrollController extends Controller
 {
     public function getSeminar()
     {
-        return SeminarResource::collection(Seminar::all())->where('is_online', '1');
+        return SeminarResource::collection(Seminar::where('is_online', 1)->
+            where('closing_date_at', '>', date('Y-m-d'))->orderBy('start_date_at', 'asc')->get());
     }
 
     public function getBanner()
     {
-        return BannerResource::collection(Banner::all());
+        return Banner::all();
     }
 
     public function getCustomerInfo(Request $request)
@@ -49,9 +49,9 @@ class EnrollController extends Controller
 
     public function getTodaySeminar(Request $request)
     {
-        $sid = $request['sid'];
-        $cid = Customer::where('phone_number',$request['phone'])->first()->id;
-        return SeminarCustomer::where('seminar_id', $sid)->where('customer_id', $cid)->update(['status' => 2]);
+        return Seminar::where('start_date_at', date('Y-m-d'))->get()->map(function ($customer) {
+            return $customer->only(['id', 'name']);
+        });
     }
 
     public function signIn(Request $request)

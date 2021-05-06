@@ -29,5 +29,8 @@ Route::post('createEnroll', 'Api\EnrollController@createEnroll');
 //取消报课记录
 Route::post('deleteEnroll', 'Api\EnrollController@deleteEnroll');
 //签到-手机号-课程id
-Route::post('todaySeminar', 'Api\EnrollController@getTodaySeminar');
+Route::get('todaySeminar', 'Api\EnrollController@getTodaySeminar');
 Route::post('signIn', 'Api\EnrollController@signIn');
+
+//小程序-获取openid
+Route::get('wxlogin', 'Api\MiniProgramController@getOpenid');
