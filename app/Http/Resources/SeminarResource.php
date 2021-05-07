@@ -15,6 +15,7 @@ class SeminarResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'lecturer' => $this->lecturer,
             'total_quota' => $this->quota,
