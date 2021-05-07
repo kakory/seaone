@@ -36,14 +36,18 @@ class EnrollController extends Controller
     public function createEnroll(Request $request)
     {
         $sid = $request['sid'];
-        $cid = Customer::where('phone_number',$request['phone'])->first()->id;
-        return SeminarCustomer::firstOrCreate(['seminar_id' => $sid, 'customer_id' => $cid], ['status' => 0]);
+        $cid = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
+        $res = SeminarCustomer::where('seminar_id',$sid)->where('customer_id',$cid)->first();
+        if($res){
+            return 1;
+        }
+        return SeminarCustomer::Create(['seminar_id' => $sid, 'customer_id' => $cid, 'status' => 0]);
     }
 
     public function deleteEnroll(Request $request)
     {
         $sid = $request['sid'];
-        $cid = Customer::where('phone_number',$request['phone'])->first()->id;
+        $cid = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
         return SeminarCustomer::where('seminar_id', $sid)->where('customer_id', $cid)->delete();
     }
 
@@ -57,10 +61,13 @@ class EnrollController extends Controller
     public function signIn(Request $request)
     {
         $sid = $request['sid'];
-        $cid = Customer::where('phone_number',$request['phone'])->first()->id;
+        $cid = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
         $res = SeminarCustomer::where('seminar_id', $sid)->where('customer_id', $cid);
-        if($res->firstOrFail()->status == 2){
+        if(!$res->first()){
             return 2;
+        }
+        if($res->first()->status == 2){
+            return 3;
         }
         return $res->update(['status' => 2]);
     }

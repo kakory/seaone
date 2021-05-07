@@ -28,7 +28,7 @@ Route::post('enrollHistory', 'Api\EnrollController@getEnrollHistory');
 Route::post('createEnroll', 'Api\EnrollController@createEnroll');
 //取消报课记录
 Route::post('deleteEnroll', 'Api\EnrollController@deleteEnroll');
-//签到-手机号-课程id    404:未报课，1:成功，2:重复签到
+//签到-手机号-课程id    404:未注册，1:成功，2:未报课，3：重复签到
 Route::get('todaySeminar', 'Api\EnrollController@getTodaySeminar');
 Route::post('signIn', 'Api\EnrollController@signIn');
 
