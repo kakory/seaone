@@ -63,7 +63,6 @@ class BannerController extends AdminController
         $form = new Form(new Banner());
 
         $form->image('url', __('Url'))->move('banners')->uniqueName();
-        $form->ignore(['created_at', 'updated_at', 'column3']);
 
         return $form;
     }
