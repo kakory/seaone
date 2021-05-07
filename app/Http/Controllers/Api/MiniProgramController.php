@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class MiniProgramController extends Controller
 {
-    public function getOpenid()
+    public function wxlogin()
     {
         $appid = "wx48032850d7cfffe2";
         $secret = "e4eaf3c3401b2d9f5760cb8ac1bfd34b";
@@ -25,7 +25,7 @@ class MiniProgramController extends Controller
         return $res;
     }
 
-    public function wxlogin()
+    public function getPhoneNumber()
     {
         $sessionKey = $_GET["sessionKey"];
         $encryptedData = $_GET["encryptedData"];

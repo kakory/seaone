@@ -17,7 +17,7 @@ class CreateSeminarCustomerTable extends Migration
             $table->increments('id');
             $table->integer('customer_id')->index();
             $table->integer('seminar_id')->index();
-            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

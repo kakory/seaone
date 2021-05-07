@@ -25,19 +25,19 @@ class EnrollController extends Controller
 
     public function getCustomerInfo(Request $request)
     {
-        return Customer::where('phone_number',$request['phone'])->first();
+        return Customer::where('phone_number',$request['phone'])->firstOrFail();
     }
 
     public function getEnrollHistory(Request $request)
     {
-        return Customer::where('phone_number',$request['phone'])->first()->enroll;
+        return Customer::where('phone_number',$request['phone'])->firstOrFail()->enroll;
     }
 
     public function createEnroll(Request $request)
     {
         $sid = $request['sid'];
         $cid = Customer::where('phone_number',$request['phone'])->first()->id;
-        return SeminarCustomer::create(['seminar_id' => $sid, 'customer_id' => $cid, 'status' => 0]);
+        return SeminarCustomer::firstOrCreate(['seminar_id' => $sid, 'customer_id' => $cid], ['status' => 0]);
     }
 
     public function deleteEnroll(Request $request)
@@ -58,6 +58,10 @@ class EnrollController extends Controller
     {
         $sid = $request['sid'];
         $cid = Customer::where('phone_number',$request['phone'])->first()->id;
-        return SeminarCustomer::where('seminar_id', $sid)->where('customer_id', $cid)->update(['status' => 2]);
+        $res = SeminarCustomer::where('seminar_id', $sid)->where('customer_id', $cid);
+        if($res->firstOrFail()->status == 2){
+            return 2;
+        }
+        return $res->update(['status' => 2]);
     }
 }
