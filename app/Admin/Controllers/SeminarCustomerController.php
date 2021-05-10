@@ -30,8 +30,8 @@ class SeminarCustomerController extends AdminController
 
         $grid->filter(function($filter){
             $filter->disableIdFilter();
-            $filter->like('seminar_id', '课程名');
-            $filter->like('customer_id', '客户名');
+            $filter->equal('seminar_id', '课程ID');
+            $filter->equal('customer_id', '客户ID');
         });
         $grid->disableFilter();
 
@@ -41,6 +41,7 @@ class SeminarCustomerController extends AdminController
         $grid->column('customer.name','姓名');
         $grid->column('customer.phone_number','手机号');
         $grid->column('customer.company_name','公司名');
+        $grid->column('合约')->privileges()->label();
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'))->hide();
         $grid->column('status','状态')->radio([
