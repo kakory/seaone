@@ -22,6 +22,7 @@ Route::get('seminar', 'Api\EnrollController@getSeminar');
 Route::get('banner', 'Api\EnrollController@getBanner');
 //获取客户个人信息-手机号
 Route::post('customerInfo', 'Api\EnrollController@getCustomerInfo');
+Route::post('customerPrivilege', 'Api\EnrollController@getCustomerPrivilege');
 //获取客户报课记录-手机号
 Route::post('enrollHistory', 'Api\EnrollController@getEnrollHistory');
 //新增报课记录

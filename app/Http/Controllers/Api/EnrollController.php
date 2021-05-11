@@ -8,10 +8,12 @@ use App\Http\Resources\SeminarResource;
 use App\Models\Customer;
 use App\Models\Seminar;
 use App\Models\SeminarCustomer;
+use App\Models\PrivilegeCustomer;
 use App\Models\Banner;
 
 class EnrollController extends Controller
 {
+    //已上线&未截止（服务端） 有名额（客户端）
     public function getSeminar()
     {
         return SeminarResource::collection(Seminar::where('is_online', 1)->
@@ -26,6 +28,12 @@ class EnrollController extends Controller
     public function getCustomerInfo(Request $request)
     {
         return Customer::where('phone_number',$request['phone'])->firstOrFail();
+    }
+
+    public function getCustomerPrivilege(Request $request)
+    {
+        $cid = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
+        return PrivilegeCustomer::where('customer_id',$cid)->get();
     }
 
     public function getEnrollHistory(Request $request)
