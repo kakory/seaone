@@ -104,7 +104,7 @@ class CustomerController extends AdminController
         }
         if($form->isCreating()){
             $form->text('name', __('Name'))->required();
-            $form->mobile('phone_number', __('Phone number'))->required();
+            $form->text('phone_number', __('Phone number'))->rules('required|digits:11');
             $form->text('company_name', __('Company name'))->required();
             $form->image('photo', __('Photo'))->move('photos')->uniqueName();
             $form->text('remark', __('Remark'));
