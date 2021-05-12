@@ -32,7 +32,7 @@ class PrivilegeCustomerController extends AdminController
         $grid->filter(function($filter){
             $filter->disableIdFilter();
             $filter->column(1/3, function ($filter) {
-                $filter->like('customer_id', '姓名');
+                $filter->like('customer.name', '姓名');
             });
             $filter->column(1/3, function ($filter) {
                 $filter->like('customer.phone_number','手机号');
