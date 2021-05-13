@@ -8,6 +8,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use App\Admin\Extensions\CustomerExporter;
 
 class CustomerController extends AdminController
 {
@@ -40,6 +41,8 @@ class CustomerController extends AdminController
             });
             $filter->expand();
         });
+        $grid->exporter(new CustomerExporter());
+
         $grid->column('id', __('Id'));
         $grid->column('photo', __('Photo'))->image(env('APP_URL').'/upload',50,50)->hide();
         $grid->column('name', __('Name'));
@@ -96,7 +99,7 @@ class CustomerController extends AdminController
             });
             $form->column(1/2, function ($form) {
                 $form->text('name', __('Name'))->required();
-                $form->mobile('phone_number', __('Phone number'))->required();
+                $form->text('phone_number', __('Phone number'))->rules('required|digits:11');
                 $form->text('company_name', __('Company name'))->required();
                 $form->image('photo', __('Photo'))->move('photos')->uniqueName();
                 $form->text('remark', __('Remark'));

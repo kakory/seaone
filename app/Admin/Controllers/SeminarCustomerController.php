@@ -7,6 +7,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use App\Admin\Extensions\SeminarCustomerExporter;
 
 class SeminarCustomerController extends AdminController
 {
@@ -34,6 +35,7 @@ class SeminarCustomerController extends AdminController
             $filter->equal('customer_id', '客户ID');
         });
         $grid->disableFilter();
+        $grid->exporter(new SeminarCustomerExporter());
 
         $grid->model()->orderBy('created_at', 'desc');
         $grid->column('id', __('Id'));
