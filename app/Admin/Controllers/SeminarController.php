@@ -101,6 +101,7 @@ class SeminarController extends AdminController
         $form->hidden('name');
         $form->text('lecturer', __('Lecturer'))->required();
         $form->number('quota', __('Quota'))->required();
+        $form->hidden('group');
         $form->dateRange('start_date_at', 'end_date_at', 'Date Range')->required();
         $form->date('closing_date_at', __('Closing at'))->required();
         $form->hidden('start_time_at');
@@ -135,6 +136,8 @@ class SeminarController extends AdminController
             }else{
                 $form->name = $start_month . $start_day . '-' . $end_day . $name;
             }
+
+            $form->group = substr($form->start_date_at, 0, 7);
         });
 
         return $form;

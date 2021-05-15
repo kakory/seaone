@@ -49,19 +49,20 @@ class EnrollController extends Controller
         if(!$course = $request['cid']){
             $course = Seminar::where('id',$seminar)->first()->course_id;
         }
-        return $course;
 
         //重复报课
         if(SeminarCustomer::where('seminar_id',$seminar)->where('customer_id',$customer)->first()){
             return 1;
         }
-
+        
         //本月报了相同course_id的课
-        //Seminar::where('course_id', $course)->where('start-date_at',)
-        if(SeminarCustomer::where('customer_id',$customer)->where('customer_id',)->first()){
-            return 2;
+        $months = Seminar::where('group',date('Y-m'))->where('course_id', $course)->get();
+        foreach ($months as $month) {
+            if(SeminarCustomer::where('seminar_id',$month->id)->where('customer_id',$customer)->first()){
+                return 2;
+            }
         }
-
+        
         return SeminarCustomer::Create(['seminar_id' => $seminar, 'customer_id' => $customer, 'status' => 0]);
     }
 
