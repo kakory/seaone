@@ -57,7 +57,7 @@ Column::extend('showPrivileges', function ($value, $table) {
     }
     $privileges = PrivilegeCustomer::where('customer_id', $id)->get();
     foreach ($privileges as $privilege) {
-        $bgcolor = $privilege->limit > date('Y-m-d') ? 'label-success' : 'label-default';
+        $bgcolor = $privilege->limit > date('Y-m-d') ? 'label-success' : 'label-danger';
         $name = ($privilege->privilege_id == 1) ? 'VIP' : '标杆';
         $result .= "<span class='label " . $bgcolor . "'>" . $name . "</span> ";
     }
