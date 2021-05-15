@@ -43,13 +43,26 @@ class EnrollController extends Controller
 
     public function createEnroll(Request $request)
     {
-        $sid = $request['sid'];
-        $cid = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
-        $res = SeminarCustomer::where('seminar_id',$sid)->where('customer_id',$cid)->first();
-        if($res){
+        $seminar = $request['sid'];
+        $customer = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
+        $course = 0;
+        if(!$course = $request['cid']){
+            $course = Seminar::where('id',$seminar)->first()->course_id;
+        }
+        return $course;
+
+        //重复报课
+        if(SeminarCustomer::where('seminar_id',$seminar)->where('customer_id',$customer)->first()){
             return 1;
         }
-        return SeminarCustomer::Create(['seminar_id' => $sid, 'customer_id' => $cid, 'status' => 0]);
+
+        //本月报了相同course_id的课
+        //Seminar::where('course_id', $course)->where('start-date_at',)
+        if(SeminarCustomer::where('customer_id',$customer)->where('customer_id',)->first()){
+            return 2;
+        }
+
+        return SeminarCustomer::Create(['seminar_id' => $seminar, 'customer_id' => $customer, 'status' => 0]);
     }
 
     public function deleteEnroll(Request $request)
