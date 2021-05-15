@@ -49,7 +49,7 @@ class CustomerController extends AdminController
         $grid->column('phone_number', __('Phone number'));
         $grid->column('company_name', __('Company name'));
         $grid->column('remark', __('Remark'));
-        $grid->column('contract', '合约')->pluck('name')->label();
+        $grid->column('合约')->showPrivileges('Customer')->help('灰色为已过期');
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'))->hide();
         $grid->column('报名历史')->showEnrollByCustomer();

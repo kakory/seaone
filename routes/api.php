@@ -36,3 +36,6 @@ Route::post('signIn', 'Api\EnrollController@signIn');
 //小程序-获取openid
 Route::get('wxlogin', 'Api\MiniProgramController@wxlogin');
 Route::get('phoneNumber', 'Api\MiniProgramController@getPhoneNumber');
+
+//上传头像
+//Route::post('photo', 'Api\MiniProgramController@wxlogin');

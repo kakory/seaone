@@ -48,13 +48,26 @@ Column::extend('showEnrollByCustomer', function () {
             </a>";
 });
 
-Column::extend('privileges', function () {
-    $privileges = PrivilegeCustomer::where('customer_id', $this->customer_id)->pluck('privilege_id')->map(function ($comment) {
-        if($comment == 1){
-            return 'VIP';
-        }else{
-            return '标杆';
-        }
-    });
-    return $privileges;
+Column::extend('showPrivileges', function ($value, $table) {
+    $result = '';
+    if($table == 'Customer'){
+        $id = $this->id;
+    } else {
+        $id = $this->customer_id;
+    }
+    $privileges = PrivilegeCustomer::where('customer_id', $id)->get();
+    foreach ($privileges as $privilege) {
+        $bgcolor = $privilege->limit > date('Y-m-d') ? 'label-success' : 'label-default';
+        $name = ($privilege->privilege_id == 1) ? 'VIP' : '标杆';
+        $result .= "<span class='label " . $bgcolor . "'>" . $name . "</span> ";
+    }
+    return $result;
+});
+
+Column::extend('showLimit', function ($value) {
+    if(date('Y-m-d') > $value){
+        return "<span style='color: #f00'>$value</span>";
+    }else{
+        return "<span>$value</span>";
+    }
 });

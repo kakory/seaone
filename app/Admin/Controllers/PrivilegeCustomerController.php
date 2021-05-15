@@ -50,7 +50,7 @@ class PrivilegeCustomerController extends AdminController
             'VIP' => 'danger',
             '标杆' => 'primary',
         ]);
-        $grid->column('limit', __('Limit'));
+        $grid->column('limit', __('Limit'))->showLimit();
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'))->hide();
         
