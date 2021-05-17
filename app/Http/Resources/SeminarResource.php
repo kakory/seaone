@@ -17,6 +17,7 @@ class SeminarResource extends JsonResource
         return [
             'id' => $this->id,
             'course_id' => $this->course_id,
+            'group' => $this->group,
             'name' => $this->name,
             'lecturer' => $this->lecturer,
             'total_quota' => $this->quota,
