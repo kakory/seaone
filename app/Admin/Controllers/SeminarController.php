@@ -137,7 +137,7 @@ class SeminarController extends AdminController
                 $form->name = $start_month . $start_day . '-' . $end_day . $name;
             }
 
-            $form->group = substr($form->start_date_at, 0, 7);
+            $form->group = substr($form->start_date_at, 0, 7) . '-' . $form->course_id;
         });
 
         return $form;

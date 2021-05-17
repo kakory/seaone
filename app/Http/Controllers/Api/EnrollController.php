@@ -45,9 +45,9 @@ class EnrollController extends Controller
     {
         $seminar = $request['sid'];
         $customer = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
-        $course = 0;
-        if(!$course = $request['cid']){
-            $course = Seminar::where('id',$seminar)->first()->course_id;
+        $group = 0;
+        if(!$group = $request['group']){
+            $group = Seminar::where('id',$seminar)->first()->group;
         }
 
         //重复报课
@@ -55,8 +55,8 @@ class EnrollController extends Controller
             return 1;
         }
         
-        //本月报了相同course_id的课
-        $months = Seminar::where('group',date('Y-m'))->where('course_id', $course)->get();
+        //本月报了相同group的课
+        $months = Seminar::where('group', $group)->get();
         foreach ($months as $month) {
             if(SeminarCustomer::where('seminar_id',$month->id)->where('customer_id',$customer)->first()){
                 return 2;
