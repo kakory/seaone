@@ -36,9 +36,8 @@ Form::init(function (Form $form) {
 });
 
 Column::extend('showEnrollBySeminar', function () {
-	$remaining_quota = $this->customers->count();
     return "<a href= seminar-customers?seminar_id=$this->id>
-                <i class='fa fa-chevron-right'/> $remaining_quota/$this->quota
+                <i class='fa fa-chevron-right'/> $this->occupied_quota/$this->quota
             </a>";
 });
 

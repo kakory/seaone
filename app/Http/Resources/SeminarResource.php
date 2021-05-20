@@ -21,7 +21,7 @@ class SeminarResource extends JsonResource
             'name' => $this->name,
             'lecturer' => $this->lecturer,
             'total_quota' => $this->quota,
-            'remaining_quota' => $this->customers->count(),
+            'remaining_quota' => $this->occupied_quota,
             'start_date_at' => $this->start_date_at,
             'start_time_at' => $this->start_time_at,
             'end_date_at' => $this->end_date_at,

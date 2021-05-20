@@ -19,7 +19,8 @@ class CreateSeminarTable extends Migration
             $table->string('name');
             $table->string('lecturer');
             $table->smallInteger('quota');
-            //$table->smallInteger('remaining_quota');
+            $table->smallInteger('occupied_quota')->default(0);
+            $table->smallInteger('group');
             $table->date('start_date_at');
             $table->time('start_time_at');
             $table->date('end_date_at');
