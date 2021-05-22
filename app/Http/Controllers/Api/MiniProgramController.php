@@ -42,7 +42,7 @@ class MiniProgramController extends Controller
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
 
-        $token = TOKEN;
+        $token = 'umineko';
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
