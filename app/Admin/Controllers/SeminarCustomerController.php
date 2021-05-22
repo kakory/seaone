@@ -47,9 +47,9 @@ class SeminarCustomerController extends AdminController
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'))->hide();
         $grid->column('status','状态')->radio([
-            -1 => 'danger',
-            0 => 'warning',
-            1 => '已报名-待打卡',
+            -1 => '审核失败',
+            0 => '待审核',
+            1 => '已审核-待打卡',
             2 => '已打卡',
         ])->dot([
             -1 => 'danger',
