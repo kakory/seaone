@@ -37,7 +37,9 @@ Route::post('signIn', 'Api\EnrollController@signIn');
 Route::get('wxlogin', 'Api\MiniProgramController@wxlogin');
 Route::get('phoneNumber', 'Api\MiniProgramController@getPhoneNumber');
 
-Route::get('checkSignature', 'Api\MiniProgramController@checkSignature');
+//消息推送
+Route::get('subscribeMessage', 'Api\MiniProgramController@checkSignature');
+Route::post('subscribeMessage', 'Api\MiniProgramController@subscribeMessage');
 
 //上传头像
 //Route::post('photo', 'Api\MiniProgramController@wxlogin');
