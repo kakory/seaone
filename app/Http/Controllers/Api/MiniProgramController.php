@@ -35,4 +35,23 @@ class MiniProgramController extends Controller
         $aesCipher=base64_decode($encryptedData);
         return openssl_decrypt($aesCipher, "AES-128-CBC", $aesKey, 1, $aesIV);
     }
+
+    public function checkSignature()
+    {
+        $signature = $_GET["signature"];
+        $timestamp = $_GET["timestamp"];
+        $nonce = $_GET["nonce"];
+
+        $token = TOKEN;
+        $tmpArr = array($token, $timestamp, $nonce);
+        sort($tmpArr, SORT_STRING);
+        $tmpStr = implode( $tmpArr );
+        $tmpStr = sha1( $tmpStr );
+
+        if ($tmpStr == $signature ) {
+            return $_GET["echostr"];
+        } else {
+            return "";
+        }
+    }
 }

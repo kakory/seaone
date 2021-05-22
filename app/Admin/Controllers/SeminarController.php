@@ -140,7 +140,7 @@ class SeminarController extends AdminController
 
             $form->group = substr($form->start_date_at, 0, 7) . '-' . $form->course_id;
 
-            $form->occupied_quota = $form->model()->customers->count();
+            // $form->occupied_quota = $form->model()->customers->count();
         });
 
         return $form;
