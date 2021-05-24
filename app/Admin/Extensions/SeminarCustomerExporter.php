@@ -11,11 +11,11 @@ class SeminarCustomerExporter extends ExcelExporter implements WithMapping
 
     protected $columns = [
         'id'=>'id',
-        'seminar_id'=>'seminar_id',
-        'customer_id'=>'customer_id',
-        'customer_id'=>'customer_id',
-        'customer_id'=>'customer_id',
-        'customer_id'=>'customer_id',
+        'seminar_id'=>'seminar_name',
+        'customer_id'=>'customer_name',
+        'customer.phone_number'=>'phone_number',
+        'customer.company_name'=>'company_name',
+        'customer.adviser.name'=>'adviser_name',
     ];
 
     public function map($seminarCustomer) : array

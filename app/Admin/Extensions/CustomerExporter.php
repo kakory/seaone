@@ -14,7 +14,7 @@ class CustomerExporter extends ExcelExporter implements WithMapping
         'name'=>'name',
         'phone_number'=>'phone_number',
         'company_name'=>'company_name',
-        'adviser_id'=>'adviser_id',
+        'adviser_id'=>'adviser_name',
         'remark'=>'remark',
     ];
 
