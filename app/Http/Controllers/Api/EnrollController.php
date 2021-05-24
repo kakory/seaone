@@ -74,7 +74,7 @@ class EnrollController extends Controller
             return 3;
         }
         
-        return SeminarCustomer::Create(['seminar_id' => $seminar, 'customer_id' => $customer, 'status' => 0]);
+        return SeminarCustomer::Create(['seminar_id' => $seminar, 'customer_id' => $customer, 'status' => 1]);
     }
 
     public function deleteEnroll(Request $request)
