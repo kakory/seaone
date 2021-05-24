@@ -52,7 +52,7 @@ class CustomerController extends AdminController
         $grid->column('adviser.name', '顾问');
         $grid->column('合约')->showPrivileges('Customer')->help('红色为已过期');
         $grid->column('remark', __('Remark'));
-        $grid->column('created_at', __('Created at'));
+        $grid->column('created_at', __('Created at'))->hide();
         $grid->column('updated_at', __('Updated at'))->hide();
         $grid->column('报名历史')->showEnrollByCustomer();
 
