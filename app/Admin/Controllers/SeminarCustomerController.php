@@ -43,6 +43,9 @@ class SeminarCustomerController extends AdminController
         $grid->column('customer.name','姓名');
         $grid->column('customer.phone_number','手机号');
         $grid->column('customer.company_name','公司名');
+        $grid->column('顾问')->display(function () {
+            return $this->customer->adviser->name;
+        });
         $grid->column('合约')->showPrivileges('SeminarCustomer')->help('红色为已过期');
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'))->hide();

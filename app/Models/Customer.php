@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     protected $table = 'customer';
-    protected $fillable = ['name', 'phone_number', 'company_name', 'photo', 'remark'];
+    protected $fillable = ['name', 'phone_number', 'company_name', 'adviser_id', 'photo', 'remark'];
 
     public function seminars()
     {
@@ -31,5 +31,10 @@ class Customer extends Model
         return $this->belongsToMany(Privilege::Class, 'privilege_customer', 'customer_id', 'Privilege_id')
         ->withPivot('limit')
         ->withTimestamps();
+    }
+
+    public function adviser()
+    {
+        return $this->belongsTo(Adviser::class);
     }
 }

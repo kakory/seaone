@@ -38,8 +38,8 @@ Route::get('wxlogin', 'Api\MiniProgramController@wxlogin');
 Route::get('phoneNumber', 'Api\MiniProgramController@getPhoneNumber');
 
 //消息推送
-Route::get('subscribeMessage', 'Api\MiniProgramController@checkSignature');
-Route::post('subscribeMessage', 'Api\MiniProgramController@subscribeMessage');
+// Route::get('subscribeMessage', 'Api\MiniProgramController@checkSignature');
+// Route::post('subscribeMessage', 'Api\MiniProgramController@subscribeMessage');
 
 //上传头像
 //Route::post('photo', 'Api\MiniProgramController@wxlogin');

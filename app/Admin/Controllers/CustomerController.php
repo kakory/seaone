@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Customer;
+use App\Models\Adviser;
 use App\Admin\Selectable\Seminars;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -48,8 +49,9 @@ class CustomerController extends AdminController
         $grid->column('name', __('Name'));
         $grid->column('phone_number', __('Phone number'));
         $grid->column('company_name', __('Company name'));
-        $grid->column('remark', __('Remark'));
+        $grid->column('adviser.name', '顾问');
         $grid->column('合约')->showPrivileges('Customer')->help('红色为已过期');
+        $grid->column('remark', __('Remark'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'))->hide();
         $grid->column('报名历史')->showEnrollByCustomer();
@@ -101,6 +103,7 @@ class CustomerController extends AdminController
                 $form->text('name', __('Name'))->required();
                 $form->text('phone_number', __('Phone number'))->rules('required|digits:11');
                 $form->text('company_name', __('Company name'))->required();
+                $form->select('adviser_id', '顾问')->options(Adviser::all()->pluck('name', 'id'));
                 $form->image('photo', __('Photo'))->move('photos')->uniqueName();
                 $form->text('remark', __('Remark'));
             });
@@ -109,6 +112,7 @@ class CustomerController extends AdminController
             $form->text('name', __('Name'))->required();
             $form->text('phone_number', __('Phone number'))->rules('required|digits:11');
             $form->text('company_name', __('Company name'))->required();
+            $form->select('adviser_id', '顾问')->options(Adviser::all()->pluck('name', 'id'));
             $form->image('photo', __('Photo'))->move('photos')->uniqueName();
             $form->text('remark', __('Remark'));
         }
