@@ -66,7 +66,6 @@ class EnrollController extends Controller
 
         //合约过期or无合约
         $privilege = Course::where('id', $request['cid'])->first()->privilege_id;
-        return $privilege;
         $contract = PrivilegeCustomer::where('privilege_id', $privilege)->where('customer_id',$customer)->first();
         if(!$contract){
             return 3;
