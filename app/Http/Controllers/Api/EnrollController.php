@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\SeminarResource;
+use App\Models\Course;
 use App\Models\Customer;
 use App\Models\Seminar;
 use App\Models\SeminarCustomer;
@@ -61,6 +62,17 @@ class EnrollController extends Controller
             if(SeminarCustomer::where('seminar_id',$month->id)->where('customer_id',$customer)->first()){
                 return 2;
             }
+        }
+
+        //合约过期or无合约
+        $privilege = Course::where('id', $request['cid'])->first()->privilege_id;
+        return $privilege;
+        $contract = PrivilegeCustomer::where('privilege_id', $privilege)->where('customer_id',$customer)->first();
+        if(!$contract){
+            return 3;
+        }
+        if($contract->limit < date('Y-m-d')){
+            return 3;
         }
         
         return SeminarCustomer::Create(['seminar_id' => $seminar, 'customer_id' => $customer, 'status' => 0]);
