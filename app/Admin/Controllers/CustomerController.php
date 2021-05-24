@@ -109,9 +109,9 @@ class CustomerController extends AdminController
             });
         }
         if($form->isCreating()){
-            $form->text('name', __('Name'))->required();
+            $form->text('name', __('Name'))->required()->help('重名请在后面加公司首字，例：陈丽嫦（圣）、李艳（个）');
             $form->text('phone_number', __('Phone number'))->rules('required|digits:11');
-            $form->text('company_name', __('Company name'))->required();
+            $form->text('company_name', __('Company name'))->required()->help('个人请填客户姓名');
             $form->select('adviser_id', '顾问')->options(Adviser::all()->pluck('name', 'id'));
             $form->image('photo', __('Photo'))->move('photos')->uniqueName();
             $form->text('remark', __('Remark'));
