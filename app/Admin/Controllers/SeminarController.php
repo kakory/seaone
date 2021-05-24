@@ -101,7 +101,7 @@ class SeminarController extends AdminController
         $form->hidden('name');
         $form->text('lecturer', __('Lecturer'))->required();
         $form->number('quota', __('Quota'))->required();
-        $form->hidden('occupied_quota');
+        // $form->hidden('occupied_quota');
         $form->hidden('group');
         $form->dateRange('start_date_at', 'end_date_at', 'Date Range')->required();
         $form->date('closing_date_at', __('Closing at'))->required();
