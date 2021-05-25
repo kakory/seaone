@@ -49,11 +49,7 @@ Column::extend('showEnrollByCustomer', function () {
 
 Column::extend('showPrivileges', function ($value, $table) {
     $result = '';
-    if($table == 'Customer'){
-        $id = $this->id;
-    } else {
-        $id = $this->customer_id;
-    }
+    $id = $table == 'Customer' ? $this->id : $this->customer_id;
     $privileges = PrivilegeCustomer::where('customer_id', $id)->get();
     foreach ($privileges as $privilege) {
         $bgcolor = $privilege->limit && $privilege->limit < date('Y-m-d') ? 'label-default' : 'label-success';
@@ -64,9 +60,6 @@ Column::extend('showPrivileges', function ($value, $table) {
 });
 
 Column::extend('checkExpire', function ($value) {
-    if(date('Y-m-d') > $value){
-        return "<span style='color: #f00'>$value</span>";
-    }else{
-        return "<span>$value</span>";
-    }
+    $color = date('Y-m-d') > $value ? '#f00' : '#000';
+    return "<span style='color: $color'>$value</span>";
 });
