@@ -63,7 +63,7 @@ Column::extend('showPrivileges', function ($value, $table) {
     return $result;
 });
 
-Column::extend('showLimit', function ($value) {
+Column::extend('checkExpire', function ($value) {
     if(date('Y-m-d') > $value){
         return "<span style='color: #f00'>$value</span>";
     }else{

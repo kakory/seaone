@@ -100,8 +100,8 @@ class CustomerController extends AdminController
                 $form->belongsToMany('enroll', Seminars::class, __('当前报名记录'));
             });
             $form->column(1/2, function ($form) {
-                $form->text('name', __('Name'))->required()->updateRules(['required', "unique:customer,name,{{id}}"]);
-                $form->text('phone_number', __('Phone number'))->rules('required|digits:11')->updateRules(['required', "unique:customer,phone_number,{{id}}"]);
+                $form->text('name', __('Name'))->rules('required|unique:customer,name,{{id}}');
+                $form->text('phone_number', __('Phone number'))->rules('required|digits:11|unique:customer,phone_number,{{id}}');
                 $form->text('company_name', __('Company name'))->required();
                 $form->select('adviser_id', '顾问')->options(Adviser::all()->pluck('name', 'id'));
                 $form->image('photo', __('Photo'))->move('photos')->uniqueName();
@@ -109,8 +109,8 @@ class CustomerController extends AdminController
             });
         }
         if($form->isCreating()){
-            $form->text('name', __('Name'))->required()->help('重名请在后面加公司首字，例：陈丽嫦（圣）、李艳（个）')->creationRules(['required', "unique:customer"]);
-            $form->text('phone_number', __('Phone number'))->rules('required|digits:11')->creationRules(['required', "unique:customer"]);
+            $form->text('name', __('Name'))->rules('required|unique:customer')->help('重名请在后面加公司首字，例：陈丽嫦（圣）、李艳（个）');
+            $form->text('phone_number', __('Phone number'))->rules('required|digits:11|unique:customer');
             $form->text('company_name', __('Company name'))->required()->help('个人请填客户姓名');
             $form->select('adviser_id', '顾问')->options(Adviser::all()->pluck('name', 'id'));
             $form->image('photo', __('Photo'))->move('photos')->uniqueName();

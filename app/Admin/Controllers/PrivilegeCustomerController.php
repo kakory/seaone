@@ -42,6 +42,8 @@ class PrivilegeCustomerController extends AdminController
             });
             $filter->expand();
         });
+
+        $grid->model()->orderBy('id', 'desc');
         $grid->column('id', __('Id'));
         $grid->column('customer.name','姓名');
         $grid->column('customer.phone_number','手机号');
@@ -50,7 +52,7 @@ class PrivilegeCustomerController extends AdminController
             'VIP' => 'danger',
             '标杆' => 'primary',
         ]);
-        $grid->column('limit', __('Limit'))->showLimit()->help('红色为已过期');
+        $grid->column('limit', __('Limit'))->checkExpire()->help('红色为已过期');
         $grid->column('created_at', __('Created at'))->hide();
         $grid->column('updated_at', __('Updated at'))->hide();
         
@@ -91,9 +93,15 @@ class PrivilegeCustomerController extends AdminController
     {
         $form = new Form(new PrivilegeCustomer());
 
-        $form->belongsTo('customer_id', Customers::class, '客户');
+        $form->belongsTo('customer_id', Customers::class, '客户')->required();
         $form->radioButton('privilege_id', '合约名')->options(Privilege::all()->pluck('name', 'id'))->required();
-        $form->date('limit', __('Limit'))->help('标杆则填写2099-01-01');
+        $form->date('limit', __('Limit'))->help('标杆则填写2099-01-01')->required();
+
+        $form->saving(function (Form $form) {
+            if(PrivilegeCustomer::where('customer_id',$form->customer_id)->where('privilege_id',$form->privilege_id)->first()){
+                throw new \Exception('合约重复，请在原有合约上更新');
+            }
+        });
 
         return $form;
     }
