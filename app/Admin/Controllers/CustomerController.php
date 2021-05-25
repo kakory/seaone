@@ -50,7 +50,7 @@ class CustomerController extends AdminController
         $grid->column('phone_number', __('Phone number'));
         $grid->column('company_name', __('Company name'));
         $grid->column('adviser.name', '顾问');
-        $grid->column('合约')->showPrivileges('Customer')->help('红色为已过期');
+        $grid->column('合约')->showPrivileges('Customer')->help('灰色为已过期');
         $grid->column('remark', __('Remark'));
         $grid->column('created_at', __('Created at'))->hide();
         $grid->column('updated_at', __('Updated at'))->hide();
@@ -97,7 +97,7 @@ class CustomerController extends AdminController
 
         if($form->isEditing()){
             $form->column(1/2, function ($form) {
-                $form->belongsToMany('enroll', Seminars::class, __('报名记录（仅上线）'));
+                $form->belongsToMany('enroll', Seminars::class, __('当前报名记录'));
             });
             $form->column(1/2, function ($form) {
                 $form->text('name', __('Name'))->required()->updateRules(['required', "unique:customer,name,{{id}}"]);
