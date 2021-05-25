@@ -94,15 +94,17 @@ class PrivilegeCustomerController extends AdminController
         $form = new Form(new PrivilegeCustomer());
 
         $form->belongsTo('customer_id', Customers::class, '客户')->required();
-        $form->radioButton('privilege_id', '合约名')->options(Privilege::all()->pluck('name', 'id'))->required()->help('提交失败则为合约重复，请在原有合约上更新')
-            ->when(1, function (Form $form) { 
-            $form->date('limit', __('Limit'));
-        });
+        $form->radioButton('privilege_id', '合约名')->options(Privilege::all()->pluck('name', 'id'))->required()->help('若提交失败，请检查合约是否重复');
+        $form->date('limit', __('Limit'))->help('标杆不用填');
         
-
         $form->saving(function (Form $form) {
             if(PrivilegeCustomer::where('customer_id',$form->customer_id)->where('privilege_id',$form->privilege_id)->first()){
-                throw new \Exception('合约重复，请在原有合约上更新');
+                if (!$id = $form->model()->id) {
+                    throw new \Exception('合约重复，请在原有合约上更新');
+                }
+            }
+            if($form->privilege_id == 1 && !$form->limit){
+                throw new \Exception('请填写到期时间');
             }
         });
 
