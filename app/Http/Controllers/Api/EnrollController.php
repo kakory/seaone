@@ -53,14 +53,14 @@ class EnrollController extends Controller
 
         //重复报课
         if(SeminarCustomer::where('seminar_id',$seminar)->where('customer_id',$customer)->first()){
-            abort(403, '重复报课');
+            return 1;
         }
         
         //本月报了相同group的课
         $months = Seminar::where('group', $group)->get();
         foreach ($months as $month) {
             if(SeminarCustomer::where('seminar_id',$month->id)->where('customer_id',$customer)->first()){
-                abort(403, '本月报了相同group的课');
+                return 2;
             }
         }
 
@@ -68,7 +68,7 @@ class EnrollController extends Controller
         $privilege = Course::where('id', $request['cid'])->first()->privilege_id;
         $contract = PrivilegeCustomer::where('privilege_id', $privilege)->where('customer_id',$customer)->first();
         if(!$contract || ($contract->limit < date('Y-m-d') && $privilege == 1)){
-            abort(403, '合约过期or无合约');
+            return 3;
         }
         
         return SeminarCustomer::Create(['seminar_id' => $seminar, 'customer_id' => $customer, 'status' => 1]);
