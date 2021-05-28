@@ -44,34 +44,28 @@ class EnrollController extends Controller
 
     public function createEnroll(Request $request)
     {
-        $seminar = $request['sid'];
-        $customer = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
-        $group = 0;
-        if(!$group = $request['group']){
-            $group = Seminar::where('id',$seminar)->first()->group;
-        }
+        $seminarId = $request['sid'];
+        $privilegeId = Course::where('id', $request['cid'])->first()->privilege_id;
+        $customerId = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
+        $group = $request['group'];
 
-        //重复报课
-        if(SeminarCustomer::where('seminar_id',$seminar)->where('customer_id',$customer)->first()){
-            return 1;
+        if(SeminarCustomer::where('seminar_id',$seminarId)->where('customer_id',$customerId)->first()){
+            abort(403, '您已报该课程');
         }
         
-        //本月报了相同group的课
-        $months = Seminar::where('group', $group)->get();
-        foreach ($months as $month) {
-            if(SeminarCustomer::where('seminar_id',$month->id)->where('customer_id',$customer)->first()){
-                return 2;
+        $seminars = Seminar::where('group', $group)->get();
+        foreach ($seminars as $seminar) {
+            if(SeminarCustomer::where('seminar_id',$seminar->id)->where('customer_id',$customerId)->first()){
+                abort(403, '您已报本月同类型课程');
             }
         }
 
-        //合约过期or无合约
-        $privilege = Course::where('id', $request['cid'])->first()->privilege_id;
-        $contract = PrivilegeCustomer::where('privilege_id', $privilege)->where('customer_id',$customer)->first();
-        if(!$contract || ($contract->limit < date('Y-m-d') && $privilege == 1)){
-            return 3;
+        $contract = PrivilegeCustomer::where('privilege_id', $privilegeId)->where('customer_id',$customerId)->first();
+        if(!$contract || ($contract->limit < date('Y-m-d') && $privilegeId == 1)){
+            abort(403, '您的合同已过期，请与客服联系');
         }
         
-        return SeminarCustomer::Create(['seminar_id' => $seminar, 'customer_id' => $customer, 'status' => 1]);
+        return SeminarCustomer::Create(['seminar_id' => $seminarId, 'customer_id' => $customerId, 'status' => 1]);
     }
 
     public function deleteEnroll(Request $request)
@@ -81,10 +75,10 @@ class EnrollController extends Controller
         return SeminarCustomer::where('seminar_id', $sid)->where('customer_id', $cid)->delete();
     }
 
-    public function getTodaySeminar(Request $request)
+    public function getDailySeminar(Request $request)
     {
         return Seminar::where('start_date_at', date('Y-m-d'))->get()->map(function ($customer) {
-            return $customer->only(['id', 'name']);
+            return $customer->only(['id', 'name', 'start_date_at']);
         });
     }
 
@@ -94,10 +88,10 @@ class EnrollController extends Controller
         $cid = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
         $res = SeminarCustomer::where('seminar_id', $sid)->where('customer_id', $cid);
         if(!$res->first()){
-            return 2;
+            abort(403, '您还未报该课程');
         }
         if($res->first()->status == 2){
-            return 3;
+            abort(200, '重复签到');
         }
         return $res->update(['status' => 2]);
     }
