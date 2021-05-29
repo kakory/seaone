@@ -77,8 +77,8 @@ class EnrollController extends Controller
 
     public function getDailySeminar(Request $request)
     {
-        return Seminar::where('start_date_at', date('Y-m-d'))->get()->map(function ($customer) {
-            return $customer->only(['id', 'name', 'start_date_at']);
+        return Seminar::where('start_date_at', date('Y-m-d'))->get()->map(function ($seminar) {
+            return $seminar->only(['id', 'name', 'course_id', 'start_date_at']);
         });
     }
 
@@ -98,18 +98,18 @@ class EnrollController extends Controller
 
     public function checkBasicAndAdvance(Request $request)
     {
-        $sum = [0,0];
+        $tags = [0,0];
         $cid = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
         $enrolls = SeminarCustomer::where('customer_id', $cid)->get();
         foreach ($enrolls as $enroll) {
             $id = Seminar::where('id',$enroll->seminar_id)->first()->course_id;
             if($id == 1){
-                $sum[0] = $sum[0] + 1;
+                $tags[0] = $tags[0] + 1;
             }else if($id == 2){
-                $sum[1] = $sum[1] + 1;
+                $tags[1] = $tags[1] + 1;
 
             }
         }
-        return $sum;
+        return $tags;
     }
 }
