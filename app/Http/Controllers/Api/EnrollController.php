@@ -95,4 +95,21 @@ class EnrollController extends Controller
         }
         return $res->update(['status' => 2]);
     }
+
+    public function checkBasicAndAdvance(Request $request)
+    {
+        $sum = [0,0];
+        $cid = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
+        $enrolls = SeminarCustomer::where('customer_id', $cid)->get();
+        foreach ($enrolls as $enroll) {
+            $id = Seminar::where('id',$enroll->seminar_id)->first()->course_id;
+            if($id == 1){
+                $sum[0] = $sum[0] + 1;
+            }else if($id == 2){
+                $sum[1] = $sum[1] + 1;
+
+            }
+        }
+        return $sum;
+    }
 }
