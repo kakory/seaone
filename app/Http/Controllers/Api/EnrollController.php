@@ -14,9 +14,9 @@ use App\Models\Banner;
 
 class EnrollController extends Controller
 {
-    //已上线&未截止（服务端） 有名额（客户端）
     public function getSeminar()
     {
+        //已上线&未截止（服务端） 有名额（客户端）
         return SeminarResource::collection(Seminar::where('is_online', 1)->
             where('closing_date_at', '>', date('Y-m-d'))->orderBy('start_date_at', 'asc')->get());
     }
@@ -111,5 +111,15 @@ class EnrollController extends Controller
             }
         }
         return $tags;
+    }
+
+    public function start(Request $request)
+    {
+        $salt = 'grrr4u5h1r0';
+        $customers = Customer::all();
+        foreach ($customers as $customer) {
+            $customer->update(['union_id' => sha1($customer->phone_number . $salt)]);
+        }
+        return 'done';
     }
 }

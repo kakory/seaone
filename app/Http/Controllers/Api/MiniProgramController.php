@@ -27,12 +27,12 @@ class MiniProgramController extends Controller
 
     public function getPhoneNumber()
     {
-        $sessionKey = $_GET["sessionKey"];
         $encryptedData = $_GET["encryptedData"];
+        $sessionKey = $_GET["sessionKey"];
         $iv = $_GET["iv"];
+        $aesCipher=base64_decode($encryptedData);
         $aesKey=base64_decode($sessionKey);
         $aesIV=base64_decode($iv);
-        $aesCipher=base64_decode($encryptedData);
         return openssl_decrypt($aesCipher, "AES-128-CBC", $aesKey, 1, $aesIV);
     }
 
