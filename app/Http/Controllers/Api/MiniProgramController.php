@@ -25,7 +25,7 @@ class MiniProgramController extends Controller
         return $res;
     }
 
-    public function getPhoneNumber()
+    public function getPhoneNumberHash()
     {
         $encryptedData = $_GET["encryptedData"];
         $sessionKey = $_GET["sessionKey"];
@@ -33,7 +33,10 @@ class MiniProgramController extends Controller
         $aesCipher=base64_decode($encryptedData);
         $aesKey=base64_decode($sessionKey);
         $aesIV=base64_decode($iv);
-        return openssl_decrypt($aesCipher, "AES-128-CBC", $aesKey, 1, $aesIV);
+        $decryptedData = openssl_decrypt($aesCipher, "AES-128-CBC", $aesKey, 1, $aesIV);
+        $phoneNumber = json_decode($decryptedData)->phoneNumber;
+        $salt = 'grrr4u5h1r0';
+        return sha1($phoneNumber . $salt);
     }
 
     public function checkSignature()

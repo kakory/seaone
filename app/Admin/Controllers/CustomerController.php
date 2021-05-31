@@ -108,6 +108,7 @@ class CustomerController extends AdminController
                     $constraint->aspectRatio();
                 })->move('photos')->uniqueName();
                 $form->text('remark', __('Remark'));
+                $form->hidden('uniqle_id');
             });
         }
         if($form->isCreating()){
@@ -117,7 +118,13 @@ class CustomerController extends AdminController
             $form->select('adviser_id', '顾问')->options(Adviser::all()->pluck('name', 'id'));
             $form->image('photo', __('Photo'))->move('photos')->uniqueName();
             $form->text('remark', __('Remark'));
+            $form->hidden('uniqle_id');
         }
+
+        $form->saving(function (Form $form) {
+            $salt = 'grrr4u5h1r0';
+            $form->uniqle_id = sha1($form->phone_number . $salt);
+        });
 
         return $form;
     }

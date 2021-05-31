@@ -26,27 +26,27 @@ class EnrollController extends Controller
         return Banner::all();
     }
 
-    public function getCustomerInfo(Request $request)
+    public function getCustomer(Request $request)
     {
-        return Customer::where('phone_number',$request['phone'])->firstOrFail();
-    }
-
-    public function getCustomerPrivilege(Request $request)
-    {
-        $cid = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
-        return PrivilegeCustomer::where('customer_id',$cid)->get();
+        $customer = Customer::where('uniqle_id',$request['uid'])->firstOrFail();
+        return [
+            'name'=>$customer->name,
+            'company_name'=>$customer->company_name,
+            'photo'=>$customer->photo,
+            'limit'=>PrivilegeCustomer::where('customer_id',$customer->id)->where('privilege_id',1)->first()->limit,
+        ];
     }
 
     public function getEnrollHistory(Request $request)
     {
-        return Customer::where('phone_number',$request['phone'])->firstOrFail()->enroll;
+        return Customer::where('uniqle_id',$request['uid'])->firstOrFail()->enroll;
     }
 
     public function createEnroll(Request $request)
     {
         $seminarId = $request['sid'];
         $privilegeId = Course::where('id', $request['cid'])->first()->privilege_id;
-        $customerId = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
+        $customerId = Customer::where('uniqle_id',$request['uid'])->firstOrFail()->id;
         $group = $request['group'];
 
         if(SeminarCustomer::where('seminar_id',$seminarId)->where('customer_id',$customerId)->first()){
@@ -62,7 +62,7 @@ class EnrollController extends Controller
 
         $contract = PrivilegeCustomer::where('privilege_id', $privilegeId)->where('customer_id',$customerId)->first();
         if(!$contract || ($contract->limit < date('Y-m-d') && $privilegeId == 1)){
-            abort(403, '您的合同已过期，请与客服联系');
+            abort(403, '您的会员已过期，请与客服联系');
         }
         
         return SeminarCustomer::Create(['seminar_id' => $seminarId, 'customer_id' => $customerId, 'status' => 1]);
@@ -71,13 +71,13 @@ class EnrollController extends Controller
     public function deleteEnroll(Request $request)
     {
         $sid = $request['sid'];
-        $cid = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
+        $cid = Customer::where('uniqle_id',$request['uid'])->firstOrFail()->id;
         return SeminarCustomer::where('seminar_id', $sid)->where('customer_id', $cid)->delete();
     }
 
     public function getDailySeminar(Request $request)
     {
-        return Seminar::where('start_date_at', date('Y-m-d'))->get()->map(function ($seminar) {
+        return Seminar::where('start_date_at', '<=', date('Y-m-d'))->where('end_date_at', '>=', date('Y-m-d'))->get()->map(function ($seminar) {
             return $seminar->only(['id', 'name', 'course_id', 'start_date_at']);
         });
     }
@@ -85,7 +85,7 @@ class EnrollController extends Controller
     public function signIn(Request $request)
     {
         $sid = $request['sid'];
-        $cid = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
+        $cid = Customer::where('uniqle_id',$request['uid'])->firstOrFail()->id;
         $res = SeminarCustomer::where('seminar_id', $sid)->where('customer_id', $cid);
         if(!$res->first()){
             abort(403, '您还未报该课程');
@@ -99,7 +99,7 @@ class EnrollController extends Controller
     public function checkBasicAndAdvance(Request $request)
     {
         $tags = [0,0];
-        $cid = Customer::where('phone_number',$request['phone'])->firstOrFail()->id;
+        $cid = Customer::where('uniqle_id',$request['uid'])->firstOrFail()->id;
         $enrolls = SeminarCustomer::where('customer_id', $cid)->get();
         foreach ($enrolls as $enroll) {
             $id = Seminar::where('id',$enroll->seminar_id)->first()->course_id;
@@ -113,13 +113,13 @@ class EnrollController extends Controller
         return $tags;
     }
 
-    public function start(Request $request)
-    {
-        $salt = 'grrr4u5h1r0';
-        $customers = Customer::all();
-        foreach ($customers as $customer) {
-            $customer->update(['union_id' => sha1($customer->phone_number . $salt)]);
-        }
-        return 'done';
-    }
+    // public function start(Request $request)
+    // {
+    //     $salt = 'grrr4u5h1r0';
+    //     $customers = Customer::all();
+    //     foreach ($customers as $customer) {
+    //         $customer->update(['uniqle_id' => sha1($customer->phone_number . $salt)]);
+    //     }
+    //     return 'done';
+    // }
 }

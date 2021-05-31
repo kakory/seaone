@@ -21,8 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('seminar', 'Api\EnrollController@getSeminar');
 Route::get('banner', 'Api\EnrollController@getBanner');
 //获取客户个人信息-手机号
-Route::get('customerInfo', 'Api\EnrollController@getCustomerInfo');
-Route::get('customerPrivilege', 'Api\EnrollController@getCustomerPrivilege');
+Route::get('customer', 'Api\EnrollController@getCustomer');
 //获取客户报课记录-手机号
 Route::get('enrollHistory', 'Api\EnrollController@getEnrollHistory');
 //新增报课记录
@@ -34,11 +33,11 @@ Route::get('dailySeminar', 'Api\EnrollController@getDailySeminar');
 Route::post('signIn', 'Api\EnrollController@signIn');
 
 Route::get('basicAndAdvance', 'Api\EnrollController@checkBasicAndAdvance');
-Route::get('start', 'Api\EnrollController@start');
+// Route::get('start', 'Api\EnrollController@start');
 
 //小程序-获取openid
 Route::get('wxlogin', 'Api\MiniProgramController@wxlogin');
-Route::get('phoneNumber', 'Api\MiniProgramController@getPhoneNumber');
+Route::get('phoneNumberHash', 'Api\MiniProgramController@getPhoneNumberHash');
 
 //消息推送
 // Route::get('subscribeMessage', 'Api\MiniProgramController@checkSignature');
