@@ -17,7 +17,7 @@ class SeminarController extends AdminController
      *
      * @var string
      */
-    protected $title = '课程';
+    protected $title = '班级';
 
     /**
      * Make a grid builder.
