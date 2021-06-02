@@ -29,7 +29,6 @@ class SeminarResource extends JsonResource
             'closing_date_at' => $this->closing_date_at,
             'closing_time_at' => $this->closing_time_at,
             'classroom' => $this->classroom,
-            'qrcode' => $this->qrcode,
             'note' => $this->course->note,
         ];
     }

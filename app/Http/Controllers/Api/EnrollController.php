@@ -29,11 +29,12 @@ class EnrollController extends Controller
     public function getCustomer(Request $request)
     {
         $customer = Customer::where('uniqle_id',$request['uid'])->firstOrFail();
+        $privilege = PrivilegeCustomer::where('customer_id',$customer->id)->where('privilege_id',1)->first()
         return [
             'name'=>$customer->name,
             'company_name'=>$customer->company_name,
             'photo'=>$customer->photo,
-            'limit'=>PrivilegeCustomer::where('customer_id',$customer->id)->where('privilege_id',1)->first()->limit,
+            'limit'=>$privilege ? $privilege->limit : '',
         ];
     }
 
