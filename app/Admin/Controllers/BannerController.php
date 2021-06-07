@@ -27,7 +27,8 @@ class BannerController extends AdminController
         $grid = new Grid(new Banner());
 
         $grid->column('id', __('Id'));
-        $grid->column('url', __('Url'))->image();;
+        $grid->column('url', __('Url'))->image();
+        $grid->column('is_show', __('Is show'))->switch();
 
         $grid->actions(function ($actions) {
             $actions->disableDelete();
@@ -63,6 +64,7 @@ class BannerController extends AdminController
         $form = new Form(new Banner());
 
         $form->image('url', __('Url'))->move('banners')->uniqueName();
+        $form->switch('is_show', __('Is show'));
 
         return $form;
     }

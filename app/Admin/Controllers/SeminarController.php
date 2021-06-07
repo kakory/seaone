@@ -45,10 +45,7 @@ class SeminarController extends AdminController
             return $this->end_date_at . ' ' . $this->end_time_at;
         });
         $grid->column('closing_date_at',  __('Closing at'))->checkExpire()->help('红色为已过期');
-        $grid->column('is_online', __('Is online'))->filter([
-            0 => '未上线',
-            1 => '已上线',
-        ])->switch();
+        $grid->column('is_online', __('Is online'))->switch();
         $grid->column('classroom', __('Classroom'))->hide();
         $grid->column('qrcode', __('Qrcode'))->hide();
         $grid->column('created_at', __('Created at'))->hide();

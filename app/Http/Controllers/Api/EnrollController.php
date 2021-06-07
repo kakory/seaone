@@ -23,7 +23,7 @@ class EnrollController extends Controller
 
     public function getBanner()
     {
-        return Banner::all();
+        return Banner::where('is_show', 1)->get();
     }
 
     public function getCustomer(Request $request)

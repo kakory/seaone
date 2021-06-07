@@ -116,7 +116,9 @@ class CustomerController extends AdminController
             $form->text('phone_number', __('Phone number'))->rules('required|digits:11|unique:customer');
             $form->text('company_name', __('Company name'))->required()->help('个人请直接填客户姓名');
             $form->select('adviser_id', '顾问')->options(Adviser::all()->pluck('name', 'id'));
-            $form->image('photo', __('Photo'))->move('photos')->uniqueName();
+            $form->image('photo', __('Photo'))->resize(null, 300, function($constraint){
+                $constraint->aspectRatio();
+            })->move('photos')->uniqueName();
             $form->text('remark', __('Remark'));
             $form->hidden('uniqle_id');
         }
