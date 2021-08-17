@@ -20,6 +20,7 @@
 use Encore\Admin\Grid\Column;
 use Encore\Admin\Form;
 use App\Models\PrivilegeCustomer;
+use App\Models\Privilege;
 
 Encore\Admin\Form::forget(['map', 'editor']);
 
@@ -53,7 +54,7 @@ Column::extend('showPrivileges', function ($value, $table) {
     $privileges = PrivilegeCustomer::where('customer_id', $id)->get();
     foreach ($privileges as $privilege) {
         $bgcolor = $privilege->limit && $privilege->limit < date('Y-m-d') ? 'label-default' : 'label-success';
-        $name = ($privilege->privilege_id == 1) ? 'VIP' : '标杆';
+        $name = Privilege::where('id', $privilege->privilege_id)->first()->name;
         $result .= "<span class='label " . $bgcolor . "'>" . $name . "</span> ";
     }
     return $result;

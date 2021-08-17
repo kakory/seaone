@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Customer;
 use App\Models\Seminar;
 use App\Models\SeminarCustomer;
+use App\Models\Privilege;
 use App\Models\PrivilegeCustomer;
 use App\Models\Banner;
 
@@ -62,8 +63,9 @@ class EnrollController extends Controller
         }
 
         $contract = PrivilegeCustomer::where('privilege_id', $privilegeId)->where('customer_id',$customerId)->first();
-        if(!$contract || ($contract->limit < date('Y-m-d') && $privilegeId == 1)){
-            abort(403, '您的会员已过期，请与客服联系');
+        $privilegeType = Privilege::where('id', $privilegeId)->first()->type;
+        if(!$contract || ($contract->limit < date('Y-m-d') && $privilegeType == 0)){
+            abort(403, '您的会员已过期，请联系客服');
         }
         
         return SeminarCustomer::Create(['seminar_id' => $seminarId, 'customer_id' => $customerId, 'status' => 1]);
