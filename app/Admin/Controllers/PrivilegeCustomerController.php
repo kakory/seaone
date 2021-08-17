@@ -100,7 +100,7 @@ class PrivilegeCustomerController extends AdminController
                     throw new \Exception('合约重复，请在原有合约上更新');
                 }
             }
-            if($form->privilege_id == 1 && !$form->limit){
+            if(Privilege::where('id', $form->privilege_id)->first()->type == 0 && !$form->limit){
                 throw new \Exception('请填写到期时间');
             }
         });
