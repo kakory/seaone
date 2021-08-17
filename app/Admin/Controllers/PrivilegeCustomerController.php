@@ -48,10 +48,7 @@ class PrivilegeCustomerController extends AdminController
         $grid->column('customer.name','姓名');
         $grid->column('customer.phone_number','手机号');
         $grid->column('customer.company_name','公司名');
-        $grid->column('privilege.name', '合约名')->dot([
-            'VIP' => 'danger',
-            '标杆' => 'primary',
-        ]);
+        $grid->column('privilege.name', '合约名');
         $grid->column('limit', __('Limit'))->checkExpire()->help('红色为已过期');
         $grid->column('created_at', __('Created at'))->hide();
         $grid->column('updated_at', __('Updated at'))->hide();
