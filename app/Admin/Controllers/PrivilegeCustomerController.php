@@ -90,9 +90,17 @@ class PrivilegeCustomerController extends AdminController
     {
         $form = new Form(new PrivilegeCustomer());
 
-        $form->belongsTo('customer_id', Customers::class, '客户')->required();
-        $form->radioButton('privilege_id', '合约名')->options(Privilege::all()->pluck('name', 'id'))->required()->default(1)->help('若提交失败，请检查合约是否重复');
-        $form->date('limit', __('Limit'));
+        if($form->isCreating()){
+            $form->belongsTo('customer_id', Customers::class, '客户')->required();
+            $form->radioButton('privilege_id', '合约名')->options(Privilege::all()->pluck('name', 'id'))->required()->default(1)->help('若提交失败，请检查合约是否重复');
+            $form->date('limit', __('Limit'));
+        }
+        if($form->isEditing()){
+            $form->belongsTo('customer_id', Customers::class, '客户')->required();
+            $form->hidden('privilege_id');
+            $form->display('privilege.name', '合约名');
+            $form->date('limit', __('Limit'));
+        }
         
         $form->saving(function (Form $form) {
             if(PrivilegeCustomer::where('customer_id',$form->customer_id)->where('privilege_id',$form->privilege_id)->first()){
