@@ -96,7 +96,8 @@ class PrivilegeCustomerController extends AdminController
             $form->date('limit', __('Limit'));
         }
         if($form->isEditing()){
-            $form->belongsTo('customer_id', Customers::class, '客户')->required();
+            $form->hidden('customer_id');
+            $form->display('customer.name','客户');
             $form->hidden('privilege_id');
             $form->display('privilege.name', '合约名');
             $form->date('limit', __('Limit'));
