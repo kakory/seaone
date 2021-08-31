@@ -39,6 +39,9 @@ Route::get('basicAndAdvance', 'Api\EnrollController@checkBasicAndAdvance');
 Route::get('wxlogin', 'Api\MiniProgramController@wxlogin');
 Route::get('phoneNumberHash', 'Api\MiniProgramController@getPhoneNumberHash');
 
+Route::get('exchangeRate', 'Api\UtilController@getExchangeRate');
+Route::post('exchangeRate', 'Api\UtilController@updateExchangeRate');
+
 //消息推送
 // Route::get('subscribeMessage', 'Api\MiniProgramController@checkSignature');
 // Route::post('subscribeMessage', 'Api\MiniProgramController@subscribeMessage');
