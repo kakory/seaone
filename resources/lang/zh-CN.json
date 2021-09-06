@@ -21,5 +21,11 @@
     "Photo":"相片",
     "Qrcode":"二维码",
     "Limit":"到期时间",
+    "Voucher":"凭证图片",
+    "Service":"服务名称",
+    "Amount of money":"金额",
+    "Type of payment":"付款方式",
+    "Attachments":"相关文档",
+    "Appendixes":"完成的附件",
     "Remark":"备注"
 }

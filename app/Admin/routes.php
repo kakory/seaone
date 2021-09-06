@@ -20,5 +20,8 @@ Route::group([
     $router->resource('seminar-customers', SeminarCustomerController::class);
     $router->resource('banners', BannerController::class);
     $router->resource('advisers', AdviserController::class);
+    
+    $router->resource('orders', OrderController::class);
+    $router->resource('attachments', AttachmentController::class);
 
 });
