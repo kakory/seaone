@@ -152,8 +152,8 @@ class OrderController extends AdminController
             $form->image('voucher', __('Voucher'))->move('vouchers')->uniqueName();
         });
         $form->column(1/2, function ($form) {
-            $form->multipleFile('attachments', __('Attachments'))->pathColumn('url')->move('attachments')->help('营业执照/法人身份证/商标合同书/商标品类表格/清单资料');
-            $form->multipleFile('appendixes', __('Appendixes'))->pathColumn('url')->move('appendixes')->help('TM回执文件/验证码/k标文件');
+            $form->multipleFile('attachments', __('Attachments'))->pathColumn('url')->move('attachments')->removable()->help('营业执照/法人身份证/商标合同书/商标品类表格/清单资料');
+            $form->multipleFile('appendixes', __('Appendixes'))->pathColumn('url')->move('appendixes')->removable()->help('TM回执文件/验证码/k标文件');
         });
 
         $form->saving(function (Form $form) {
@@ -167,9 +167,9 @@ class OrderController extends AdminController
                 }
             } else {
                 //edit
-                if (Admin::user()->id == $form->admin_user_id && $form->step == 1) {
+                if (Admin::user()->id == $form->model()->admin_user_id && $form->model()->step == 1) {
                     
-                } else if (Admin::user()->isRole('treasurer') && $form->step == 2) {
+                } else if (Admin::user()->isRole('treasurer') && $form->model()->step == 2) {
                     if ($form->voucher || $form->model()->voucher) {
                         $form->step = 3;
                     }
