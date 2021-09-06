@@ -52,8 +52,8 @@ class OrderController extends AdminController
         $grid->column('adminUser.name','发起人');
         $grid->column('note', __('Note'));
         $grid->column('voucher', __('Voucher'))->lightbox(['width' => 50, 'height' => 50])->help("点击放大");
-        $grid->column('相关文档')->display(function () {
-                return "展开";
+        $grid->column('attachments', __('Attachments'))->display(function ($comments) {
+                return (count($comments) != 0) ? "展开（".count($comments)."）" : "展开";
             })->expand(function ($model) {
             $attachments = $model->Attachments()->get()->map(function ($attachment) {
                 return $attachment->only(['id', 'url']);
@@ -66,8 +66,8 @@ class OrderController extends AdminController
             }
             return new Table(['ID', '文件名', '链接'], $attachmentsArray);
         });
-        $grid->column('完成的附件')->display(function () {
-            return "展开";
+        $grid->column('appendixes', __('Appendixes'))->display(function ($comments) {
+            return (count($comments) != 0) ? "展开（".count($comments)."）" : "展开";
         })->expand(function ($model) {
             $appendixes = $model->appendixes()->get()->map(function ($appendixes) {
                 return $appendixes->only(['id', 'url']);
@@ -152,8 +152,8 @@ class OrderController extends AdminController
             $form->image('voucher', __('Voucher'))->move('vouchers')->uniqueName();
         });
         $form->column(1/2, function ($form) {
-            $form->multipleFile('attachments', __('Attachments'))->pathColumn('url')->move('attachments')->removable()->help('营业执照/法人身份证/商标合同书/商标品类表格/清单资料');
-            $form->multipleFile('appendixes', __('Appendixes'))->pathColumn('url')->move('appendixes')->removable()->help('TM回执文件/验证码/k标文件');
+            $form->multipleFile('attachments', __('Attachments'))->pathColumn('url')->move('attachments')->help('营业执照/法人身份证/商标合同书/商标品类表格/清单资料');
+            $form->multipleFile('appendixes', __('Appendixes'))->pathColumn('url')->move('appendixes')->help('TM回执文件/验证码/k标文件');
         });
 
         $form->saving(function (Form $form) {
