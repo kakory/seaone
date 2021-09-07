@@ -15,6 +15,7 @@ use Encore\Admin\Widgets\Table;
 use Encore\Admin\Grid\Displayers\DropdownActions;
 use App\Admin\Actions\Finance\Accept;
 use App\Admin\Actions\Finance\Refuse;
+use App\Admin\Actions\Finance\Close;
 
 class OrderController extends AdminController
 {
@@ -23,7 +24,7 @@ class OrderController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Order';
+    protected $title = '费用收支';
 
     /**
      * Make a grid builder.
@@ -81,6 +82,7 @@ class OrderController extends AdminController
             return new Table(['ID', '文件名', '链接'], $appendixesArray);
         });
         $grid->column('step', __('Step'))->using([
+            -1 => '<span class="label label-default">已关闭</span>', 
             0 => '<span class="label label-danger">已拒绝</span>', 
             1 => '<span class="label label-warning">待审批</span>', 
             2 => '<span class="label label-info">待上传凭证</span>', 
@@ -95,6 +97,7 @@ class OrderController extends AdminController
                 $actions->add(new Accept);
                 $actions->add(new Refuse);
             }
+            $actions->add(new Close);
             $actions->disableDelete();
             $actions->disableView();
         });

@@ -2,7 +2,6 @@
 
 namespace App\Admin\Actions\Finance;
 
-use App\Models\Order;
 use Encore\Admin\Actions\RowAction;
 use Illuminate\Database\Eloquent\Model;
 
