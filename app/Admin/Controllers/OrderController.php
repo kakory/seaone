@@ -49,8 +49,8 @@ class OrderController extends AdminController
         $grid->column('customer.name', '客户名称');
         $grid->column('service', __('Service'));
         $grid->column('type_of_payment', __('Type of payment'))->using([0 => '微信', 1=> '支付宝', 2=> '银行卡']);
-        $grid->column('adminUser.name','发起人');
         $grid->column('note', __('Note'));
+        $grid->column('adminUser.name','发起人');
         $grid->column('voucher', __('Voucher'))->lightbox(['width' => 50, 'height' => 50])->help("点击放大");
         $grid->column('attachments', __('Attachments'))->display(function ($comments) {
                 return (count($comments) != 0) ? "展开（".count($comments)."）" : "展开";
@@ -162,8 +162,8 @@ class OrderController extends AdminController
                 $form->admin_user_id = Admin::user()->id;
                 $form->step = 1;
                 if($form->voucher == null && $form->type == 0){
-                    admin_toastr('aaa', 'error');
-                    throw new \Exception('aaa');
+                    admin_toastr('请上传凭证图片', 'error');
+                    throw new \Exception('请上传凭证图片');
                 }
             } else {
                 //edit

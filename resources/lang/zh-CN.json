@@ -27,5 +27,6 @@
     "Type of payment":"付款方式",
     "Attachments":"相关文档",
     "Appendixes":"完成的附件",
+    "Step":"状态",
     "Remark":"备注"
 }
