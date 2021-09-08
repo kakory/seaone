@@ -29,7 +29,7 @@ class EnrollController extends Controller
 
     public function getCustomer(Request $request)
     {
-        $customer = Customer::where('uniqle_id',$request['uid'])->firstOrFail();
+        $customer = Customer::where('unique_id',$request['uid'])->firstOrFail();
         $privilege = PrivilegeCustomer::where('customer_id',$customer->id)->where('privilege_id',1)->first();
         return [
             'name'=>$customer->name,
@@ -41,14 +41,14 @@ class EnrollController extends Controller
 
     public function getEnrollHistory(Request $request)
     {
-        return Customer::where('uniqle_id',$request['uid'])->firstOrFail()->enroll;
+        return Customer::where('unique_id',$request['uid'])->firstOrFail()->enroll;
     }
 
     public function createEnroll(Request $request)
     {
         $seminarId = $request['sid'];
         $privilegeId = Course::where('id', $request['cid'])->first()->privilege_id;
-        $customerId = Customer::where('uniqle_id',$request['uid'])->firstOrFail()->id;
+        $customerId = Customer::where('unique_id',$request['uid'])->firstOrFail()->id;
         $group = $request['group'];
 
         if(SeminarCustomer::where('seminar_id',$seminarId)->where('customer_id',$customerId)->first()){
@@ -74,7 +74,7 @@ class EnrollController extends Controller
     public function deleteEnroll(Request $request)
     {
         $sid = $request['sid'];
-        $cid = Customer::where('uniqle_id',$request['uid'])->firstOrFail()->id;
+        $cid = Customer::where('unique_id',$request['uid'])->firstOrFail()->id;
         return SeminarCustomer::where('seminar_id', $sid)->where('customer_id', $cid)->delete();
     }
 
@@ -88,7 +88,7 @@ class EnrollController extends Controller
     public function signIn(Request $request)
     {
         $sid = $request['sid'];
-        $cid = Customer::where('uniqle_id',$request['uid'])->firstOrFail()->id;
+        $cid = Customer::where('unique_id',$request['uid'])->firstOrFail()->id;
         $res = SeminarCustomer::where('seminar_id', $sid)->where('customer_id', $cid);
         if(!$res->first()){
             abort(403, '您还未报该课程');
@@ -102,7 +102,7 @@ class EnrollController extends Controller
     public function checkBasicAndAdvance(Request $request)
     {
         $tags = [0,0];
-        $cid = Customer::where('uniqle_id',$request['uid'])->firstOrFail()->id;
+        $cid = Customer::where('unique_id',$request['uid'])->firstOrFail()->id;
         $enrolls = SeminarCustomer::where('customer_id', $cid)->get();
         foreach ($enrolls as $enroll) {
             $id = Seminar::where('id',$enroll->seminar_id)->first()->course_id;
@@ -121,7 +121,7 @@ class EnrollController extends Controller
     //     $salt = 'grrr4u5h1r0';
     //     $customers = Customer::all();
     //     foreach ($customers as $customer) {
-    //         $customer->update(['uniqle_id' => sha1($customer->phone_number . $salt)]);
+    //         $customer->update(['unique_id' => sha1($customer->phone_number . $salt)]);
     //     }
     //     return 'done';
     // }
