@@ -160,17 +160,17 @@ class OrderController extends AdminController
         });
 
         $form->saving(function (Form $form) {
+            //create
             if (!$id = $form->model()->id) {
-                //create
                 $form->admin_user_id = Admin::user()->id;
                 $form->step = 1;
                 if($form->voucher == null && $form->type == 0){
                     admin_toastr('请上传凭证图片', 'error');
                     throw new \Exception('请上传凭证图片');
                 }
+            //edit
             } else {
-                //edit
-                if (Admin::user()->id == $form->model()->admin_user_id && $form->model()->step == 1) {
+                if (Admin::user()->id == $form->model()->admin_user_id && ($form->model()->step == 1 || $form->appendixes)) {
                     
                 } else if (Admin::user()->isRole('treasurer') && $form->model()->step == 2) {
                     if ($form->voucher || $form->model()->voucher) {
