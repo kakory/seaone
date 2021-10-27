@@ -47,7 +47,7 @@ class OrderController extends AdminController
                 return "<span style='color:blue'>-$src</span>";
             }
         });
-        $grid->column('customer.name', '客户名称');
+        $grid->column('customer_id', '客户名称');
         $grid->column('service', __('Service'));
         $grid->column('type_of_payment', __('Type of payment'))->using([0 => '微信', 1=> '支付宝', 2=> '银行卡']);
         $grid->column('note', __('Note'));

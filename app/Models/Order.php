@@ -15,11 +15,6 @@ class Order extends Model
         return $this->belongsTo(AdminUser::class);
     }
 
-    public function customer()
-    {
-        return $this->belongsTo(Customer::class);
-    }
-
     public function attachments()
     {
         return $this->hasMany(Attachment::class);
