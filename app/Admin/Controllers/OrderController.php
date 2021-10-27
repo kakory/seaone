@@ -147,7 +147,7 @@ class OrderController extends AdminController
         $form->column(1/2, function ($form) {
             $form->radioButton('type', '类型')->options([0 => '收入', 1=> '支出'])->default(0)->required();
             $form->datetime('date', '收支日期')->default(date('Y-m-d H:i:s'))->required();
-            $form->belongsTo('customer_id', Customers::class, '客户')->required();
+            $form->text('customer_id', Customers::class, '客户')->required();
             $form->text('service', __('Service'))->required();
             $form->decimal('amount_of_money', __('Amount of money'))->required();
             $form->radioButton('type_of_payment', __('Type of payment'))->options([0 => '微信', 1=> '支付宝', 2=> '银行卡'])->default(0)->required();
