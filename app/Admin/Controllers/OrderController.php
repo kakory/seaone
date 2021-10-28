@@ -172,6 +172,8 @@ class OrderController extends AdminController
             } else {
                 if (Admin::user()->id == $form->model()->admin_user_id && ($form->model()->step == 1 || $form->appendixes)) {
                     
+                } else if (Admin::user()->isRole('manager')) {
+
                 } else if (Admin::user()->isRole('treasurer') && $form->model()->step == 2) {
                     if ($form->voucher || $form->model()->voucher) {
                         $form->step = 3;
